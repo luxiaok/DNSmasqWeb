@@ -5,14 +5,19 @@ DNSmasqWeb
 
 Desgin By [Xiaok](http://github.luxiaok.com)
 
-## 一、环境说明 ##
+## 一、应用说明 ##
+本DNS系统可以用于机房内网、公司内网、家庭内网等类似内部网络环境
+
+## 二、运行环境 ##
 * 操作系统：RHEL 6.5 x64
 * Python：2.7.8
 * DnsMasq：2.48
 * Tornado：4.0.2
 * Jinja2：2.7.3
 
-## 二、DNSmasq配置说明 ##
+注意：以上是测试运行正常的环境，其他环境请自行测试
+
+## 三、DNSmasq配置说明 ##
 * 安装
 
 `yum -y install dnsmasq`
@@ -27,7 +32,7 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 
 `conf-dir=/etc/dnsmasq.d`
 
-## 三、Web配置 ##
+## 四、Web配置 ##
 * 安装Tornado
 
 `easy_install tornado`
@@ -64,5 +69,5 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 
 默认端口：9886
 
-## 四、截图 ##
+## 五、截图 ##
 ![DnsMasqWeb](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_domain.png)
