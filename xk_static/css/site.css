@@ -59,3 +59,7 @@ h1 {padding-bottom:0.2em;}
   text-align: center;
   vertical-align: middle;
 }
+
+.display_no {
+    display: none;
+}

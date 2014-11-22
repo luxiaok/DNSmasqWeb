@@ -20,168 +20,58 @@
 					<h4>
 						域名管理
 					</h4>
-					<table class="table table-bordered table-striped">
+                    <div class="pull-right">
+                        <input type="button" class="btn btn-primary" value="添加域名" onclick="show_add();">
+                    </div><br /><br />
+					<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
-								<th>
-									域名
-								</th>
-								<th>
-									子域名
-								</th>
-								<th>
-									记录
-								</th>
-								<th>
-									更新时间
-								</th>
-								<th>
-									操作
-								</th>
+								<th>#</th>
+                                <th>域名</th>
+								<th title="MD5：b21a3666b180025da9ea2467b4dffba2">域名文件</th>
+								<th>创建时间</th>
+								<th>更新时间</th>
+								<th>备注</th>
+                                <th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+                            <tr id="add_line" class="display_no">
+								<td></td>
+                                <td><input type="text" name="domain" id="domain"  class="input-medium"></td>
+                                <td><input type="text" name="file" id="file"  class="input-medium"></td>
+                                <td>{{get_time()}}</td>
+                                <td>{{get_time()}}</td>
+                                <td><input type="text" name="comment" id="comment"  class="input-medium"></td>
 								<td>
-									luxiaok.com
-								</td>
-								<td>
-									3
-								</td>
-								<td>
-									28
-								</td>
-								<td>
-									2014年11月22日 17:50:43
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
+                                    <a href="javascript:void(0);" class="view-link" onclick="add_domain();">保存</a> |
+                                    <a href="javascript:void(0);" class="view-link" onclick="cancel_add();">取消</a>
+                                </td>
 							</tr>
-							<tr>
-								<td>
-									test.com
-								</td>
-								<td>
-									2
-								</td>
-								<td>
-									8
-								</td>
-								<td>
-									2014年11月22日 17:51:57
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
+                            {% for d in domains %}
+                            {% if d['status'] == 'yes' %}
+                            <tr>
+                            {% else %}
+							<tr  class="error">
+                            {% endif %}
+								<td><input type="checkbox"/> {{ loop.index }}</td>
+                                <td><a href="record?did={{d['id']}}" title="查看 {{d['domain']}} 的DNS记录">{{ d['domain'] }}</a></td>
+                                <td title="MD5：{{ d['file_md5'] }}">{{ d['file'] }}</td>
+                                <td>{{ d['create_time'] }}</td>
+                                <td>{{ d['up_time'] }}</td>
+                                <td>{{ d['comment'] or '' }}</td>
+                                <td>
+                                    <a href="#" class="view-link">编辑</a> |
+                                    <a href="#" class="view-link">暂停</a> |
+                                    <a href="#" class="view-link">删除</a>
+                                </td>
 							</tr>
-							<tr>
-								<td>
-									baidu.com
-								</td>
-								<td>
-									12
-								</td>
-								<td>
-									128
-								</td>
-								<td>
-									2014年11月21日 12:28:20
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									qq.com
-								</td>
-								<td>
-									28
-								</td>
-								<td>
-									117
-								</td>
-								<td>
-									2014年11月11日 09:18:29
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									xiaok.com
-								</td>
-								<td>
-									1
-								</td>
-								<td>
-									12
-								</td>
-								<td>
-									2014年11月9日 21:53:57
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									linux.com
-								</td>
-								<td>
-									1
-								</td>
-								<td>
-									26
-								</td>
-								<td>
-									2014年10月19日 19:51:18
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									facebook.com
-								</td>
-								<td>
-									2
-								</td>
-								<td>
-									29
-								</td>
-								<td>
-									2014年9月1日 22:55:31
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									google.com
-								</td>
-								<td>
-									18
-								</td>
-								<td>
-									187
-								</td>
-								<td>
-									2014年11月22日 17:56:13
-								</td>
-								<td>
-									<a href="#" class="view-link">编辑</a>
-								</td>
-							</tr>
+                            {% endfor %}
 						</tbody>
 					</table>
 					<ul class="pager">
 						<li class="next">
-							<a href="domain/more">More &rarr;</a>
+							<a href="more">More &rarr;</a>
 						</li>
 					</ul>
 				</div>
@@ -190,6 +80,50 @@
 		<script src="static/js/jquery-1.8.3.min.js"></script>
 		<script src="static/bootstrap/js/bootstrap.min.js"></script>
 		<script src="static/js/site.js"></script>
+        <script type="text/javascript">
+            function add_domain() {
+                domain = $("#domain").val();
+                file = $("#file").val();
+                comment = $("#comment").val();
+                if ( domain == '') {
+                    alert("请输入域名！");
+                    $("#domain").focus();
+                    return false;
+                };
+                if ( file == '') {
+                    alert("请输入域名文件！");
+                    $("#file").focus();
+                    return false;
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/domain",
+                    data: { 'domain':domain,'file':file, 'comment':comment },
+                    dataType: "text",
+                    success: function(msg){
+                        if (msg == "1") {
+                            alert("添加成功！");
+                            window.location.href="/domain";
+                        } else if (msg == "2") {
+                            alert("域名已存在！");
+                            $("#domain").focus();
+                        } else {
+                            alert("提示：添加域名失败！");
+                        }
+                        },
+                    error:function(){
+                        alert("提示：服务器内部错误！");
+                        },
+                    });
+            };
+            function show_add(){
+                $("#add_line").removeClass("display_no");
+                $("#domain").focus();
+            };
+            function cancel_add(){
+                $("#add_line").addClass("display_no");
+            };
+        </script>
         {% include "xk_footer.html" %}
 	</body>
 </html>

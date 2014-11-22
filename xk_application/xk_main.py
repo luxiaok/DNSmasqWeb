@@ -13,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 import datetime
 import time
 import functools
+from hashlib import md5
 
 class TemplateRendering:
     """
@@ -58,6 +59,15 @@ class BaseHandler(RequestHandler, TemplateRendering):
             return user
         else:
             return None
+
+    # 或者文件的MD5值
+    def get_md5(self,file):
+        m = md5()
+        # 需要使用二进制格式读取文件内容
+        f = open(file, 'rb')
+        m.update(f.read())
+        f.close()
+        return m.hexdigest()
 
     # 格式化时间
     def get_time(self,s=None):

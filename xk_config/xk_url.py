@@ -11,6 +11,7 @@ HandlersURL = [
     (r"/logout", xk_login.LogoutHandler),
     (r"/dashboard/?", xk_index.IndexHandler),
     (r"/domain", xk_index.DomainHandler),
+    (r"/record", xk_index.RecordHandler),
     (r"/test", xk_test.TestHandler),
     #(r"/(favicon\.ico)", tornado.web.StaticFileHandler, dict(path=settings['static_path']+"images/icon")),
 ]
