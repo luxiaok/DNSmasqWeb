@@ -6,7 +6,8 @@ DNSmasqWeb
 Desgin By [Xiaok](http://github.luxiaok.com)
 
 ## 一、应用说明 ##
-本DNS系统可以用于机房内网、公司内网、家庭内网等类似内部网络环境
+* 本DNS系统可以用于机房内网、公司内网、家庭内网等类似内部网络环境
+* DNS服务端基于DNSmasq，Web端基于Python语言和Tornado框架
 
 ## 二、运行环境 ##
 * OS：RHEL 6.5 x64
