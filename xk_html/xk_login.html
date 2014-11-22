@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8">
+		<title>Login - DNSmasqWeb - Desgin By Xiaok</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="static/css/site.css" rel="stylesheet">
+                <!--[if lt IE 9]><script src="static/js/html5shiv.min.js"></script><![endif]-->
+	</head>
+	<body>
+		<div id="login-page" class="container">
+			<h1>DNSmasqWeb</h1>
+			<form id="login-form" class="well" method="post">
+			<label>用户名 <input type="text" class="span2" placeholder="Username" name="username"/></label>
+			<label>密　码 <input type="password" class="span2" placeholder="Password" name="password"/></label>
+			<label class="checkbox"> <input type="checkbox" value="yes" name="remember"/> 记住登录</label>
+			<button type="submit" class="btn">忘记密码</button>　
+			<button type="submit" class="btn btn-primary">登　录</button>
+		    </form>
+		</div>
+		<script src="static/js/jquery-1.8.3.min.js"></script>
+		<script src="static/bootstrap/js/bootstrap.min.js"></script>
+        {% include "xk_footer.html" %}
+	</body>
+</html>
