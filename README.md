@@ -15,14 +15,18 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 ## 二、DNSmasq配置说明 ##
 * 安装
 
-    yum -y install dnsmasq
-    chkconfig dnsmasq on
+`yum -y install dnsmasq`
+
+`chkconfig dnsmasq on`
 
 * 主配文件：/etc/dnsmasq.conf
 
-    resolv-file=/etc/dnsmasq.resolv.conf
-    addn-hosts=/etc/dnsmasq.hosts
-    conf-dir=/etc/dnsmasq.d
+`resolv-file=/etc/dnsmasq.resolv.conf`
+
+`addn-hosts=/etc/dnsmasq.hosts`
+
+`conf-dir=/etc/dnsmasq.d`
+
 
 ## 三、截图 ##
 ![DnsMasqWeb](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_domain.png)
