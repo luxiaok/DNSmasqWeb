@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="DnsMasqWeb - Desgin By Xiaok">
+		<meta name="author" content="Xiaok">
+		<title>记录管理 - DnsMasqWeb - Desgin By Xiaok</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="static/css/site.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			{% include "xk_top_nav.html" %}
+			<div class="row">
+				{% include "xk_nav.html" %}
+				<div class="span10">
+					<h4>
+						记录管理
+					</h4>
+                    <div class="pull-right">
+                    <select name="domain" id="domain" onchange="get_record()">
+                        <option value="0">-- 请选择域名 --</option>
+                        {% for d in domains %}
+                        <option value="{{d['id']}}">{{d['domain']}}</option>
+                        {% endfor %}
+                    </select>　
+                    <input type="button" class="btn btn-primary" value="确定" onclick="get_record()">
+                    {% if did > 0 %}
+                    <input type="button" class="btn btn-primary" value="添加记录" onclick="show_add();">
+                    {% endif %}
+                    </div>
+					<table class="table table-bordered table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th><input type="checkbox"> #</th>
+                                <th>主机记录</th>
+                                <th>记录类型</th>
+                                <th>记录值</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>备注</th>
+                                <th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr id="add_line" class="display_no">
+								<td></td>
+                                <td><input type="text" name="record" id="record"  class="input-small"></td>
+                                <td>
+                                    <select style="width: 90px;" name="type" id="type">
+                                        <option value="A">A</option>
+                                        <option value="CNAME">CNAME</option>
+                                        <option value="MX">MX</option>
+                                        <option value="TXT">TXT</option>
+                                        <option value="NS">NS</option>
+                                        <option value="AAAA">AAAA</option>
+                                        <option value="SRV">SRV</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="value" id="value"  class="input-small"></td>
+                                <td>{{get_time()}}</td>
+                                <td>{{get_time()}}</td>
+                                <td><input type="text" name="comment" id="comment"  class="input-small"></td>
+								<td>
+                                    <a href="#" class="view-link" onclick="add_record();">保存</a> |
+                                    <a href="#" class="view-link" onclick="cancel_add()">取消</a>
+                                </td>
+							</tr>
+                            {% for r in records %}
+                            {% if r['status'] == 'yes' %}
+							<tr>
+                            {% else %}
+                            <tr class="error">
+                            {% endif %}
+								<td><input type="checkbox"> {{loop.index}}</td>
+                                <td title="{{r['record']}}.{{cur_domain['domain']}}">{{r['record']}}</td>
+                                <td>{{r['type']}}</td>
+                                <td>{{r['value']}}</td>
+                                <td>{{r['create_time']}}</td>
+                                <td>{{r['up_time']}}</td>
+                                <td>{{r['comment']}}</td>
+								<td>
+                                    <a href="#" class="view-link">编辑</a> |
+                                    <a href="#" class="view-link">暂停</a> |
+                                    <a href="#" class="view-link">删除</a>
+                                </td>
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+					<ul class="pager">
+						<li class="next">
+							<a href="more">More &rarr;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="static/js/jquery-1.8.3.min.js"></script>
+		<script src="static/bootstrap/js/bootstrap.min.js"></script>
+		<script src="static/js/site.js"></script>
+        <script type="text/javascript">
+            function add_record() {
+                did = $("#domain").val();
+                record = $("#record").val();
+                type = $("#type").val();
+                value = $("#value").val();
+                comment = $("#comment").val();
+                if ( record == '') {
+                    alert("请输入记录！");
+                    $("#record").focus();
+                    return false;
+                };
+                if ( value == '') {
+                    alert("请输入记录值！");
+                    $("#value").focus();
+                    return false;
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/record",
+                    data: { 'record':record, 'type':type, 'value':value, 'comment':comment, 'did':did },
+                    dataType: "text",
+                    success: function(msg){
+                        if (msg == "1") {
+                            alert("添加成功！");
+                            window.location.href="/record?did="+did;
+                        } else if (msg == "2") {
+                            alert("记录已存在！");
+                            $("#record").focus();
+                        } else {
+                            alert("提示：添加记录失败！");
+                        }
+                        },
+                    error:function(){
+                        alert("提示：服务器内部错误！");
+                        },
+                    });
+            };
+            function show_add(){
+                $("#add_line").removeClass("display_no");
+                $("#record").focus();
+            };
+            function cancel_add(){
+                $("#add_line").addClass("display_no");
+            };
+            function get_record(){
+                did = $("#domain").val();
+                location.href="record?did="+did;
+            };
+            $("#domain").val({{did}});
+        </script>
+        {% include "xk_footer.html" %}
+	</body>
+</html>
