@@ -88,12 +88,13 @@ CREATE TABLE `xk_record` (
   `record` varchar(50) NOT NULL COMMENT '主机记录',
   `type` varchar(10) NOT NULL COMMENT '记录类型',
   `value` varchar(50) NOT NULL COMMENT '记录值',
+  `priority` int(11) DEFAULT NULL COMMENT 'MX优先级',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `up_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `comment` varchar(100) DEFAULT NULL COMMENT '备注',
   `status` varchar(3) NOT NULL DEFAULT 'yes' COMMENT '状态值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +103,7 @@ CREATE TABLE `xk_record` (
 
 LOCK TABLES `xk_record` WRITE;
 /*!40000 ALTER TABLE `xk_record` DISABLE KEYS */;
-INSERT INTO `xk_record` VALUES (1,1,'www','A','192.168.1.11','2014-11-22 23:23:00','2014-11-22 15:23:00','网站','yes'),(2,2,'blog','A','192.168.1.1','2014-11-22 23:29:06','2014-11-22 15:29:06','测试博客','yes'),(3,3,'www','A','180.96.86.192','2014-11-22 23:29:44','2014-11-22 15:29:44','腾讯门户网','yes'),(4,2,'news','A','192.168.1.2','2014-11-22 23:32:23','2014-11-22 15:32:23','新网页','yes');
+INSERT INTO `xk_record` VALUES (1,1,'www','A','192.168.1.11',NULL,'2014-11-22 23:23:00','2014-11-22 15:23:00','网站','yes'),(2,2,'blog','A','192.168.1.1',NULL,'2014-11-22 23:29:06','2014-11-22 15:29:06','测试博客','yes'),(3,3,'www','A','180.96.86.192',NULL,'2014-11-22 23:29:44','2014-11-22 15:29:44','腾讯门户网','yes'),(4,2,'news','A','192.168.1.2',NULL,'2014-11-22 23:32:23','2014-11-22 15:32:23','新网页','yes'),(5,2,'mail','A','113.108.16.61',NULL,'2014-11-23 00:08:09','2014-11-22 16:08:09','','yes'),(6,2,'mail','MX','mail.test.com',10,'2014-11-23 00:08:42','2014-11-22 16:08:42','MX记录','yes');
 /*!40000 ALTER TABLE `xk_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,4 +151,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-22 23:43:35
+-- Dump completed on 2014-11-23  0:33:35

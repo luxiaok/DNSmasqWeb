@@ -9,7 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-		<link href="static/css/site.css" rel="stylesheet">
+		<link href="static/css/xk_dnsmasqweb.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
@@ -26,7 +26,7 @@
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
-								<th>#</th>
+								<th><input type="checkbox" id="checkbox_all"> #</th>
                                 <th>域名</th>
 								<th title="MD5：b21a3666b180025da9ea2467b4dffba2">域名文件</th>
 								<th>创建时间</th>
@@ -79,7 +79,7 @@
 		</div>
 		<script src="static/js/jquery-1.8.3.min.js"></script>
 		<script src="static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="static/js/site.js"></script>
+		<script src="static/js/xk_dnsmasqweb.js"></script>
         <script type="text/javascript">
             function add_domain() {
                 domain = $("#domain").val();

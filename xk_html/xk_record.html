@@ -9,7 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-		<link href="static/css/site.css" rel="stylesheet">
+		<link href="static/css/xk_dnsmasqweb.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
@@ -27,18 +27,19 @@
                         <option value="{{d['id']}}">{{d['domain']}}</option>
                         {% endfor %}
                     </select>　
-                    <input type="button" class="btn btn-primary" value="确定" onclick="get_record()">
                     {% if did > 0 %}
+                    <input type="button" class="btn btn-danger" value="批量删除" onclick="">
                     <input type="button" class="btn btn-primary" value="添加记录" onclick="show_add();">
                     {% endif %}
                     </div>
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
-								<th><input type="checkbox"> #</th>
+								<th><input type="checkbox" id="checkbox_all"> #</th>
                                 <th>主机记录</th>
                                 <th>记录类型</th>
                                 <th>记录值</th>
+                                <th>MX优先级</th>
                                 <th>创建时间</th>
                                 <th>更新时间</th>
                                 <th>备注</th>
@@ -61,6 +62,7 @@
                                     </select>
                                 </td>
                                 <td><input type="text" name="value" id="value"  class="input-small"></td>
+                                <td><input type="text" name="priority" id="priority" style="width: 28px;"></td>
                                 <td>{{get_time()}}</td>
                                 <td>{{get_time()}}</td>
                                 <td><input type="text" name="comment" id="comment"  class="input-small"></td>
@@ -79,6 +81,7 @@
                                 <td title="{{r['record']}}.{{cur_domain['domain']}}">{{r['record']}}</td>
                                 <td>{{r['type']}}</td>
                                 <td>{{r['value']}}</td>
+                                <td>{{r['priority'] or ''}}</td>
                                 <td>{{r['create_time']}}</td>
                                 <td>{{r['up_time']}}</td>
                                 <td>{{r['comment']}}</td>
@@ -101,13 +104,14 @@
 		</div>
 		<script src="static/js/jquery-1.8.3.min.js"></script>
 		<script src="static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="static/js/site.js"></script>
+		<script src="static/js/xk_dnsmasqweb.js"></script>
         <script type="text/javascript">
             function add_record() {
                 did = $("#domain").val();
                 record = $("#record").val();
                 type = $("#type").val();
                 value = $("#value").val();
+                priority = $("#priority").val();
                 comment = $("#comment").val();
                 if ( record == '') {
                     alert("请输入记录！");
@@ -119,10 +123,15 @@
                     $("#value").focus();
                     return false;
                 };
+                if ( type == 'MX' && priority == '' ) {
+                    alert("请输入MX优先级！");
+                    $("#priority").focus();
+                    return false;
+                };
                 $.ajax({
                     type: "POST",
                     url: "/record",
-                    data: { 'record':record, 'type':type, 'value':value, 'comment':comment, 'did':did },
+                    data: { 'record':record, 'type':type, 'value':value, 'comment':comment, 'did':did, 'priority':priority },
                     dataType: "text",
                     success: function(msg){
                         if (msg == "1") {

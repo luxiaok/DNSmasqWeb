@@ -51,6 +51,11 @@ class RecordHandler(BaseHandler):
         record = self.get_argument("record")
         type = self.get_argument("type")
         value = self.get_argument("value")
+        priority = self.get_argument("priority")
         comment = self.get_argument("comment")
-        self.db.execute("insert into xk_record (did,record,type,value,comment,create_time) values (%s,%s,%s,%s,%s,%s)",did,record,type,value,comment,self.get_time())
+        if type == "MX":
+            priority = int(priority)
+        else:
+            priority = None
+        self.db.execute("insert into xk_record (did,record,type,value,priority,comment,create_time) values (%s,%s,%s,%s,%s,%s,%s)",did,record,type,value,priority,comment,self.get_time())
         self.write("1")
