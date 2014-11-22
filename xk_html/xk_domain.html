@@ -21,6 +21,7 @@
 						域名管理
 					</h4>
                     <div class="pull-right">
+                        <input type="button" class="btn btn-warning" value="同步解析" onclick="rsync_dns();">
                         <input type="button" class="btn btn-primary" value="添加域名" onclick="show_add();">
                     </div><br /><br />
 					<table class="table table-bordered table-striped table-hover table-condensed">
@@ -51,8 +52,12 @@
                             {% for d in domains %}
                             {% if d['status'] == 'yes' %}
                             <tr>
+                            {% set st_msg = "暂停" %}
+                            {% set fun_value = "no" %}
                             {% else %}
 							<tr  class="error">
+                            {% set st_msg = "开启" %}
+                            {% set fun_value = "yes" %}
                             {% endif %}
 								<td><input type="checkbox"/> {{ loop.index }}</td>
                                 <td><a href="record?did={{d['id']}}" title="查看 {{d['domain']}} 的DNS记录">{{ d['domain'] }}</a></td>
@@ -61,9 +66,9 @@
                                 <td>{{ d['up_time'] }}</td>
                                 <td>{{ d['comment'] or '' }}</td>
                                 <td>
-                                    <a href="#" class="view-link">编辑</a> |
-                                    <a href="#" class="view-link">暂停</a> |
-                                    <a href="#" class="view-link">删除</a>
+                                    <a href="javascript:void(0);">编辑</a> |
+                                    <a href="public/api?module=domain&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该域名？');">{{st_msg}}</a> |
+                                    <a href="public/api?module=domain&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该域名，并且同时删除该域名所有记录？');">删除</a>
                                 </td>
 							</tr>
                             {% endfor %}
