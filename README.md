@@ -71,4 +71,11 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 默认端口：9886
 
 ## 五、截图 ##
-![DnsMasqWeb](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_domain.png)
+
+* 域名管理
+
+![DnsMasqWeb Domain](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_domain.png)
+
+* DNS记录管理
+
+![DnsMasqWeb Record](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_record.png)
