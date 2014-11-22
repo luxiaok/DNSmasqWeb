@@ -27,6 +27,42 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 
 `conf-dir=/etc/dnsmasq.d`
 
+## 三、Web配置 ##
+* 安装Tornado
 
-## 三、截图 ##
+`easy_install tornado`
+
+* 安装jinja2
+
+`easy_install tornado`
+
+* 安装数据库驱动
+
+`yum -y install MySQL-python`
+
+`easy_install torndb`
+
+* 导入数据库文件
+
+`mysql> create database xk_dnsmasq;`
+
+`mysql> use xk_dnsmasq;`
+
+`mysql> source xk_db_sql/xk_dnsmasq.sql;`
+
+* 配置Web
+
+`cp xk_config/xk_setting.sample.py xk_config/xk_setting.py`
+
+在文件xk_config/xk_setting.py设置MySQL的主机、端口、用户名、密码
+
+* 启动Web端
+
+`python run.py`
+
+默认用户名/密码：admin/admin
+
+默认端口：9886
+
+## 四、截图 ##
 ![DnsMasqWeb](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_domain.png)
