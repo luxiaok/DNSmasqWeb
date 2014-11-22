@@ -1,7 +1,7 @@
 /* Akira CSS by Shawn Drew */
 
 /* general */
-body {padding-top:20px; padding-bottom:20px;}
+body {padding-top:10px; padding-bottom:10px;}
 
 h1 {padding-bottom:0.2em;}
 
@@ -52,3 +52,10 @@ h1 {padding-bottom:0.2em;}
 .zebra-list li:nth-child(odd) {background-color:#F9F9F9;}
 .zebra-list li:first-child {-webkit-border-radius:4px 4px 0 0; -moz-border-radius:4px 4px 0 0; border-radius:4px 4px 0 0;}
 .zebra-list li:last-child {border-bottom:1px solid #DDD; -webkit-border-radius:0 0 4px 4px; -moz-border-radius:0 0 4px 4px; border-radius:0 0 4px 4px;}
+
+/* 覆盖bootstrap中table做对齐的样式 */
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
