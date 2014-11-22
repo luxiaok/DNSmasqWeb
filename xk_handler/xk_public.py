@@ -50,6 +50,8 @@ class PublicAPIHandler(BaseHandler):
                         if i["record"] != "@":
                             file_content += i['record'] + "."
                         file_content += i["domain"] + ',"' + i["value"] + '"\n'
+                    elif i['type'] == "CNAME":
+                        file_content += "cname=" + i['record'] + "." + i["domain"] + "," + i["value"] + "\n"
                 f = open("/etc/dnsmasq.d/" + i['file'],"w")
                 f.write(file_content)
                 f.close()
