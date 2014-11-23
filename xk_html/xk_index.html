@@ -24,20 +24,70 @@
 					<div class="well summary">
 						<ul>
 							<li>
-								<a href="#"><span class="count">3</span> 域名</a>
+								<a href="/dns/domain"><span class="count">3</span> 域名</a>
 							</li>
 							<li>
-								<a href="#"><span class="count">28</span> 记录</a>
+								<a href="/dns/record"><span class="count">28</span> 记录</a>
 							</li>
 							<li>
-								<a href="#"><span class="count">2</span> 负载</a>
+								<a href="/users"><span class="count">2</span> 用户</a>
 							</li>
 							<li class="last">
-								<a href="#"><span class="count">299天18小时</span> 运行时间</a>
+								<a href="javascript:void(0);"><span class="count">{{data['uptime']['days']}}天{{data['uptime']['hours']}}小时{{data['uptime']['minutes']}}分钟</span> 运行时间</a>
 							</li>
 						</ul>
 					</div>
 				</div>
+                <div class="span5">
+					<h4>系统信息</h4>
+					<ul class="files zebra-list">
+						<li>
+							<i class="icon-file"></i>
+                            <a class="title" href="javascript:void(0);">主机名</a> localhost.localdomain
+                            <a class="btn btn-success" href="javascript:void(0);" title="刷新数据" onclick="location.reload()">Refresh</a>
+                            <a class="btn btn-warning" href="javascript:void(0);" title="重启服务器">Reboot</a>
+                            <a class="btn btn-danger" href="javascript:void(0);" title="关闭服务器">Shutdown</a>
+                            <span class="meta">操作系统 <em>RHEL 6.5</em></span>
+						</li>
+						<li>
+							<i class="icon-map-marker"></i> <a class="title" href="javascript:void(0);">IP地址</a> 192.168.1.11
+                            <span class="meta">流出流量 <em>12G</em> | 流入流量 <em>6G</em></span>
+						</li>
+                        <li>
+							<i class="icon-adjust"></i> <a class="title" href="javascript:void(0);">CPU使用率</a> 10%
+                            <div class="progress" title="10%"><div class="bar" style="width: 10%;"></div></div>
+						</li>
+                        <li>
+							<i class="icon-filter"></i> <a class="title" href="javascript:void(0);">系统空闲率</a> 88%
+                            <div class="progress" title="88%"><div class="bar" style="width: 88%;"></div></div>
+						</li>
+					</ul>
+                </div>
+                <div class="span5">
+					<h4>系统状态</h4>
+					<ul class="files zebra-list">
+						<li>
+							<i class="icon-asterisk"></i>
+                            <a class="title" href="javascript:void(0);">DNSmasq</a>　服务运行中 ...　
+                            <a class="btn btn-success" href="javascript:void(0);" title="重新加载服务配置">Relaod</a>
+                            <a class="btn btn-warning" href="javascript:void(0);" title="重启服务">Restart</a>
+                            <a class="btn btn-danger" href="javascript:void(0);" title="停止服务">Stop</a>
+                            <span class="meta">版本 <em>2.48</em></span>
+						</li>
+						<li>
+							<i class="icon-star-empty"></i> <a class="title" href="javascript:void(0);">系统负载</a>
+                            <span class="meta">1分钟 <em>1.0</em> | 5分钟 <em>1.2</em> | 15分钟 <em>1.8</em></span>
+						</li>
+                        <li>
+							<i class="icon-hdd"></i> <a class="title" href="javascript:void(0);">磁盘使用</a>　200G / 500G ｜ 40%
+                            <div class="progress" title="40%"><div class="bar" style="width: 40%;"></div></div>
+						</li>
+                        <li>
+							<i class="icon-road"></i> <a class="title" href="javascript:void(0);">内存使用</a>　5G / 8G ｜ 62%
+                            <div class="progress" title="62%"><div class="bar" style="width: 62%;"></div></div>
+						</li>
+					</ul>
+                </div>
 			</div>
 		</div>
 		<script src="xk_static/js/jquery-1.8.3.min.js"></script>
