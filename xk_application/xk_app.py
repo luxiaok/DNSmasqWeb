@@ -14,6 +14,7 @@ from xk_config.xk_url import *
 MainSetting = dict(
     template_path = 'xk_html',
     static_path = 'xk_static',
+    static_url_prefix = '/xk_static/',
     xsrf_cookies = False,
     cookie_secret = "db884468559f4c432bf1c1775f3dc9da",
     login_url = "/login",
