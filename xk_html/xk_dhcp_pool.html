@@ -128,7 +128,6 @@
 								<th>DNS地址</th>
                                 <th>租约</th>
                                 <th>域名</th>
-                                <th>备注</th>
                                 <th>操作</th>
 							</tr>
 						</thead>
@@ -144,7 +143,7 @@
                             {% set fun_value = "yes" %}
                             {% endif %}
 								<td><input type="checkbox"/> {{ loop.index }}</td>
-                                <td>{{ d['name'] }}</td>
+                                <td title="{{ d['comment'] or '' }}">{{ d['name'] }}</td>
                                 <td>{{ d['range_start'] }}</td>
                                 <td>{{ d['range_end'] }}</td>
                                 <td>{{ d['netmask'] }}</td>
@@ -152,8 +151,8 @@
                                 <td>{{ d['dns1'] }}</td>
                                 <td>{{ d['lease'] }}</td>
                                 <td>{{ d['domain'] or '' }}</td>
-                                <td>{{ d['comment'] or '' }}</td>
                                 <td>
+                                    <a href="/dhcp/host?id={{d['id']}}">保留地址</a> |
                                     <a href="javascript:void(0);">编辑</a> |
                                     <a href="public/api?module=dhcp_pool&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该地址池？');">{{st_msg}}</a> |
                                     <a href="public/api?module=dhcp_pool&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该地址池，并且同时删除所有DHCP规则？');">删除</a>
@@ -185,6 +184,11 @@
                 comment = $("#comment").val();
                 router = $("#router").val();
                 name = $("#name").val();
+                if ( name == '') {
+                    alert("请输入地址池名称！");
+                    $("#name").focus();
+                    return false;
+                };
                 if ( range_start == '') {
                     alert("请输入起始地址！");
                     $("#range_start").focus();
