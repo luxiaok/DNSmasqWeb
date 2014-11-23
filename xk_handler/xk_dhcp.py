@@ -26,4 +26,23 @@ class DhcpPoolHandler(BaseHandler):
             values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',name,range_start,range_end,netmask,router,dns1,dns2,domain,lease,comment)
         self.write("1")
 
+class DhcpHostHandler(BaseHandler):
+    @Auth
+    def get(self):
+        pool_id = self.get_argument("id",0)
+        pool = self.db.get("select * from xk_dhcp_pool where id = %s",pool_id)
+        pools = self.db.query("select * from xk_dhcp_pool")
+        dhcp_hosts = self.db.query("select h.id,h.pool as pool_id,h.hostname,h.mac,h.ip,h.comment,h.status,h.action,p.name as pool_name,p.range_start,p.range_end from xk_dhcp_host as h left join xk_dhcp_pool as p on h.pool=p.id")
+        self.render2("xk_dhcp_host.html",dhcp_hosts=dhcp_hosts,dhcp_pool="active",pool=pool,pools=pools)
+
+    @Auth
+    def post(self):
+        pool = self.get_argument("pool")
+        hostname = self.get_argument("hostname")
+        mac = self.get_argument("mac")
+        ip = self.get_argument("ip")
+        action = self.get_argument("action")
+        comment = self.get_argument("comment")
+        self.db.execute(" insert into xk_dhcp_host (pool,hostname,mac,ip,action,comment) values (%s,%s,%s,%s,%s,%s) ",pool,hostname,mac,ip,action,comment)
+        self.write("1")
 
