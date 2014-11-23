@@ -67,8 +67,8 @@
                                 <td>{{ d['comment'] or '' }}</td>
                                 <td>
                                     <a href="javascript:void(0);">编辑</a> |
-                                    <a href="public/api?module=domain&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该域名？');">{{st_msg}}</a> |
-                                    <a href="public/api?module=domain&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该域名，并且同时删除该域名所有记录？');">删除</a>
+                                    <a href="/public/api?module=domain&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该域名？');">{{st_msg}}</a> |
+                                    <a href="/public/api?module=domain&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该域名，并且同时删除该域名所有记录？');">删除</a>
                                 </td>
 							</tr>
                             {% endfor %}
