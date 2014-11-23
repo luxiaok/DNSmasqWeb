@@ -122,6 +122,7 @@ class BaseHandler(RequestHandler, TemplateRendering):
             'STATIC_URL': self.settings.get('static_url_prefix', '/xk_static/'),
             'static_url': self.static_url,
             'get_time': self.get_time,
+            'user_info': self.user_info,
             'format_size': self.format_size,
             'format_seconds': self.format_seconds,
             'request': self.request,
