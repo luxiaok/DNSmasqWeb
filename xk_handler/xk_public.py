@@ -15,14 +15,14 @@ class PublicAPIHandler(BaseHandler):
         if module == "record":
             if fun == "ch_status":
                 self.db.execute("update xk_record set status = %s where id = %s",value,id)
-                self.redirect("/record?did="+redirect_id)
+                self.redirect("/dns/record?did="+redirect_id)
             elif fun == "del":
                 self.db.execute("delete from xk_record where id = %s",id)
-                self.redirect("/record?did="+redirect_id)
+                self.redirect("/dns/record?did="+redirect_id)
         elif module == "domain":
             if fun == "ch_status":
                 self.db.execute("update xk_domain set status = %s where id = %s",value,id)
-                self.redirect("/domain")
+                self.redirect("/dns/domain")
             elif fun == "del":
                 # 获取该域名的配置文件
                 domain = self.db.get("select * from xk_domain where id = %s",id)
@@ -70,3 +70,10 @@ class PublicAPIHandler(BaseHandler):
                 pass
             elif fun == "start":
                 pass
+        elif module == "dhcp_host":
+            if fun == "ch_status":
+                self.db.execute("update xk_dhcp_host set status = %s where id = %s",value,id)
+                self.redirect("/dhcp/host?id="+redirect_id)
+            elif fun == "del":
+                self.db.execute("delete from xk_dhcp_host where id = %s",id)
+                self.redirect("/dhcp/host?id="+redirect_id)

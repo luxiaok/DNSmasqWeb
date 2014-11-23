@@ -110,8 +110,8 @@
                                 <td>{{ d['comment'] or '' }}</td>
                                 <td>
                                     <a href="javascript:void(0);">编辑</a> |
-                                    <a href="public/api?module=dhcp_pool&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该地址池？');">{{st_msg}}</a> |
-                                    <a href="public/api?module=dhcp_pool&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该地址池，并且同时删除所有DHCP规则？');">删除</a>
+                                    <a href="/public/api?module=dhcp_host&fun=ch_status&id={{d['id']}}&value={{fun_value}}&did={{pool['id']}}" onclick="return confirm('确认{{st_msg}}记录？');">{{st_msg}}</a> |
+                                    <a href="/public/api?module=dhcp_host&fun=del&id={{d['id']}}&did={{pool['id']}}" onclick="return confirm('确认删除该记录？');">删除</a>
                                 </td>
 							</tr>
                             {% endfor %}
