@@ -72,6 +72,10 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 
 ## 五、截图 ##
 
+* 登录页面
+
+![DnsMasqWeb Login](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_login.png)
+
 * 域名管理
 
 ![DnsMasqWeb Domain](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_domain.png)
