@@ -47,19 +47,19 @@
                             <a class="btn btn-success" href="javascript:void(0);" title="刷新数据" onclick="location.reload()">Refresh</a>
                             <a class="btn btn-warning" href="javascript:void(0);" title="重启服务器">Reboot</a>
                             <a class="btn btn-danger" href="javascript:void(0);" title="关闭服务器">Shutdown</a>
-                            <span class="meta">操作系统 <em>RHEL 6.5</em></span>
+                            <span class="meta">操作系统 <em>{{data['os']}}</em></span>
 						</li>
 						<li>
-							<i class="icon-map-marker"></i> <a class="title" href="javascript:void(0);">IP地址</a> 192.168.1.11
-                            <span class="meta">流出流量 <em>12G</em> | 流入流量 <em>6G</em></span>
+							<i class="icon-map-marker"></i> <a class="title" href="javascript:void(0);">IP地址</a> {{data['ip']}}
+                            <span class="meta">流出流量 <em>{{format_size(data['net']['out'])}}</em> | 流入流量 <em>{{format_size(data['net']['in'])}}</em></span>
 						</li>
                         <li>
-							<i class="icon-adjust"></i> <a class="title" href="javascript:void(0);">CPU使用率</a> 10%
-                            <div class="progress" title="10%"><div class="bar" style="width: 10%;"></div></div>
+							<i class="icon-adjust"></i> <a class="title" href="javascript:void(0);">CPU使用率</a> 8%
+                            <div class="progress" title="8%"><div class="bar" style="width: 8%;"></div></div>
 						</li>
                         <li>
-							<i class="icon-filter"></i> <a class="title" href="javascript:void(0);">系统空闲率</a> 88%
-                            <div class="progress" title="88%"><div class="bar" style="width: 88%;"></div></div>
+							<i class="icon-filter"></i> <a class="title" href="javascript:void(0);">系统空闲率</a> {{data['uptime']['free']}}%
+                            <div class="progress" title="{{data['uptime']['free']}}%"><div class="bar" style="width: {{data['uptime']['free']}}%;"></div></div>
 						</li>
 					</ul>
                 </div>
@@ -76,15 +76,15 @@
 						</li>
 						<li>
 							<i class="icon-star-empty"></i> <a class="title" href="javascript:void(0);">系统负载</a>
-                            <span class="meta">1分钟 <em>1.0</em> | 5分钟 <em>1.2</em> | 15分钟 <em>1.8</em></span>
+                            <span class="meta">1分钟 <em>{{data['load'][0]}}</em> | 5分钟 <em>{{data['load'][1]}}</em> | 15分钟 <em>{{data['load'][2]}}</em></span>
 						</li>
                         <li>
-							<i class="icon-hdd"></i> <a class="title" href="javascript:void(0);">磁盘使用</a>　200G / 500G ｜ 40%
-                            <div class="progress" title="40%"><div class="bar" style="width: 40%;"></div></div>
+							<i class="icon-hdd"></i> <a class="title" href="javascript:void(0);">磁盘使用</a>　{{format_size(data['hdd']['used'])}} / {{format_size(data['hdd']['all'])}} ｜ {{data['hdd']['usedPercent']}}%
+                            <div class="progress" title="{{data['hdd']['usedPercent']}}%"><div class="bar" style="width: {{data['hdd']['usedPercent']}}%;"></div></div>
 						</li>
                         <li>
-							<i class="icon-road"></i> <a class="title" href="javascript:void(0);">内存使用</a>　5G / 8G ｜ 62%
-                            <div class="progress" title="62%"><div class="bar" style="width: 62%;"></div></div>
+							<i class="icon-road"></i> <a class="title" href="javascript:void(0);">内存使用</a>　{{format_size(data['mem']['MemUsed'])}} / {{format_size(data['mem']['MemTotal'])}} ｜ {{data['mem']['MemUsedPercent']}}%
+                            <div class="progress" title="{{data['mem']['MemUsedPercent']}}%"><div class="bar" style="width: {{data['mem']['MemUsedPercent']}}%;"></div></div>
 						</li>
 					</ul>
                 </div>
