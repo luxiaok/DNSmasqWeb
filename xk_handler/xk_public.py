@@ -77,3 +77,10 @@ class PublicAPIHandler(BaseHandler):
             elif fun == "del":
                 self.db.execute("delete from xk_dhcp_host where id = %s",id)
                 self.redirect("/dhcp/host?id="+redirect_id)
+        elif module == "dhcp_pool":
+            if fun == "ch_status":
+                self.db.execute("update xk_dhcp_pool set status = %s where id = %s",value,id)
+                self.redirect("/dhcp/pool")
+            elif fun == "del":
+                self.db.execute("delete from xk_dhcp_pool where id = %s",id)
+                self.redirect("/dhcp/pool")
