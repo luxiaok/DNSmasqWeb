@@ -26,14 +26,14 @@ CREATE TABLE `xk_dhcp_host` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pool` int(11) NOT NULL COMMENT '地址池ID',
   `hostname` varchar(50) DEFAULT NULL COMMENT '主机名',
-  `mac` varchar(17) DEFAULT NULL COMMENT 'MAC地址',
+  `mac` varchar(20) DEFAULT NULL COMMENT 'MAC地址',
   `ip` varchar(15) DEFAULT NULL COMMENT 'IP地址',
   `comment` varchar(30) DEFAULT NULL COMMENT '备注',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `status` varchar(3) NOT NULL DEFAULT 'yes' COMMENT '规则状态',
   `action` varchar(10) NOT NULL DEFAULT 'allow' COMMENT '规则动作',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `xk_dhcp_host` (
 
 LOCK TABLES `xk_dhcp_host` WRITE;
 /*!40000 ALTER TABLE `xk_dhcp_host` DISABLE KEYS */;
+INSERT INTO `xk_dhcp_host` VALUES (1,2,'win7','00:0c:29:e6:93:c4','192.168.1.7','111','2014-11-23 09:07:17','yes','allow'),(2,3,'test67','00:0c:29:e6:93:c8','192.168.3.17','linux','2014-11-23 09:33:47','yes','allow'),(3,3,'winxp','01:00:0c:29:aa:8b:c8','192.168.3.100','winxp','2014-11-23 09:38:05','yes','allow');
 /*!40000 ALTER TABLE `xk_dhcp_host` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +78,7 @@ CREATE TABLE `xk_dhcp_pool` (
 
 LOCK TABLES `xk_dhcp_pool` WRITE;
 /*!40000 ALTER TABLE `xk_dhcp_pool` DISABLE KEYS */;
-INSERT INTO `xk_dhcp_pool` VALUES (1,'Pool_1','192.168.1.10','192.168.1.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'测试1','2014-11-23 07:54:17','yes'),(2,'','192.168.1.10','192.168.1.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'','2014-11-23 07:55:46','yes'),(3,'','192.168.1.10','192.168.1.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'','2014-11-23 08:05:33','yes'),(4,'Pool_2','192.168.1.198','192.168.1.201','255.255.255.128','6h','192.168.188.211','192.168.188.211','114.114.114.114','luxiaok.com',NULL,'222222','2014-11-23 08:06:30','yes');
+INSERT INTO `xk_dhcp_pool` VALUES (1,'Pool_1','192.168.1.10','192.168.1.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'测试1','2014-11-23 07:54:17','yes'),(2,'Pool_3','192.168.2.10','192.168.2.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'','2014-11-23 07:55:46','yes'),(3,'Pool_4','192.168.3.10','192.168.3.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'','2014-11-23 08:05:33','yes'),(4,'Pool_2','192.168.4.198','192.168.4.201','255.255.255.128','6h','192.168.188.211','192.168.188.211','114.114.114.114','luxiaok.com',NULL,'222222','2014-11-23 08:06:30','yes');
 /*!40000 ALTER TABLE `xk_dhcp_pool` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-23 16:21:55
+-- Dump completed on 2014-11-23 17:55:45
