@@ -45,9 +45,15 @@ class DnsRecordHandler(BaseHandler):
         value = self.get_argument("value")
         priority = self.get_argument("priority")
         comment = self.get_argument("comment")
+        fun = self.get_argument("fun","add")
         if type == "MX":
             priority = int(priority)
         else:
             priority = None
-        self.db.execute("insert into xk_record (did,record,type,value,priority,comment,create_time) values (%s,%s,%s,%s,%s,%s,%s)",did,record,type,value,priority,comment,self.get_time())
-        self.write("1")
+        if fun == "add":
+            self.db.execute("insert into xk_record (did,record,type,value,priority,comment,create_time) values (%s,%s,%s,%s,%s,%s,%s)",did,record,type,value,priority,comment,self.get_time())
+            self.write("1")
+        elif fun == "edit":
+            id = self.get_argument("id")
+            self.db.execute("update xk_record set record = %s, type = %s, value = %s, priority = %s, comment = %s where id = %s",record,type,value,priority,comment,id)
+            self.write("1")

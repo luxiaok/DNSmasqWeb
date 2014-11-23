@@ -10,6 +10,9 @@
 		<link href="/xk_static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/xk_static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 		<link href="/xk_static/css/xk_dnsmasqweb.css" rel="stylesheet">
+        <script src="/xk_static/js/jquery-1.8.3.min.js"></script>
+		<script src="/xk_static/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/xk_static/js/xk_dnsmasqweb.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -52,7 +55,7 @@
 								<td></td>
                                 <td><input type="text" name="record" id="record"  class="input-small"></td>
                                 <td>
-                                    <select style="width: 90px;" name="type" id="type">
+                                    <select style="width: 88px;" name="type" id="type">
                                         <option value="A">A</option>
                                         <option value="CNAME">CNAME</option>
                                         <option value="MX">MX</option>
@@ -74,11 +77,11 @@
 							</tr>
                             {% for r in records %}
                             {% if r['status'] == 'yes' %}
-							<tr>
+							<tr id="line_{{r['id']}}">
                             {% set st_msg = "暂停" %}
                             {% set fun_value = "no" %}
                             {% else %}
-                            <tr class="error">
+                            <tr id="line_{{r['id']}}" class="error">
                             {% set st_msg = "开启" %}
                             {% set fun_value = "yes" %}
                             {% endif %}
@@ -91,11 +94,37 @@
                                 <td>{{r['up_time']}}</td>
                                 <td>{{r['comment']}}</td>
 								<td>
-                                    <a href="javascript:void(0);">编辑</a> |
+                                    <a href="javascript:void(0);" onclick="to_edit({{r['id']}})">编辑</a> |
                                     <a href="public/api?module=record&fun=ch_status&id={{r['id']}}&value={{fun_value}}&did={{did}}" onclick="return confirm('确认{{st_msg}}该记录？');">{{st_msg}}</a> |
                                     <a href="public/api?module=record&fun=del&id={{r['id']}}&did={{did}}" onclick="return confirm('确认删除该记录？');">删除</a>
                                 </td>
 							</tr>
+                            {# 可编辑状态 #}
+                            <tr id="edit_line_{{r['id']}}" class="display_no">
+                                <td><input type="checkbox"> {{loop.index}}</td>
+                                <td><input type="text" class="input-small" value="{{r['record']}}" name="record_{{r['id']}}" id="record_{{r['id']}}"></td>
+                                <td>
+                                    <select style="width: 88px;" name="type_{{r['id']}}" id="type_{{r['id']}}" >
+                                        <option value="A">A</option>
+                                        <option value="CNAME">CNAME</option>
+                                        <option value="MX">MX</option>
+                                        <option value="TXT">TXT</option>
+                                        <option value="NS">NS</option>
+                                        <option value="AAAA">AAAA</option>
+                                        <option value="SRV">SRV</option>
+                                    </select>
+                                    <script type="text/javascript">$("#type_{{r['id']}}").val("{{r['type']}}");</script>
+                                </td>
+                                <td><input type="text" class="input-small" value="{{r['value']}}" name="value_{{r['id']}}" id="value_{{r['id']}}"></td>
+                                <td><input type="text" class="input-mini" value="{{r['priority'] or ''}}" style="width: 28px;" name="priority_{{r['id']}}" id="priority_{{r['id']}}"></td>
+                                <td>{{r['create_time']}}</td>
+                                <td>{{r['up_time']}}</td>
+                                <td><input type="text" class="input-small" value="{{r['comment']}}" name="comment_{{r['id']}}" id="comment_{{r['id']}}"></td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="save_info({{r['id']}});">保存</a> |
+                                    <a href="javascript:void(0);" onclick="to_line({{r['id']}})">取消</a>
+                                </td>
+                            </tr>
                             {% endfor %}
 						</tbody>
 					</table>
@@ -107,9 +136,6 @@
 				</div>
 			</div>
 		</div>
-		<script src="/xk_static/js/jquery-1.8.3.min.js"></script>
-		<script src="/xk_static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="/xk_static/js/xk_dnsmasqweb.js"></script>
         <script type="text/javascript">
             function add_record() {
                 did = $("#domain").val();
@@ -186,6 +212,46 @@
                     });
             };
             $("#domain").val({{did}});
+            function to_edit(id){
+                show_id = "#line_" + id;
+                edit_id = "#edit_line_" + id;
+                $(show_id).addClass("display_no");
+                $(edit_id).removeClass("display_no");
+            };
+            function to_line(id){
+                show_id = "#line_" + id;
+                edit_id = "#edit_line_" + id;
+                $(show_id).removeClass("display_no");
+                $(edit_id).addClass("display_no");
+            };
+            /* 编辑保存记录 */
+            function save_info(id){
+                did = $("#domain").val();
+                record = $("#record_"+id).val();
+                type = $("#type_"+id).val();
+                value= $("#value_"+id).val();
+                priority = $("#priority_"+id).val();
+                comment = $("#comment_"+id).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/dns/record",
+                    data: { "id":id, "did":did, "record":record, "value":value, "type":type, "priority":priority, "comment":comment, "fun":"edit" },
+                    dataType: "text",
+                    success: function(msg){
+                        if (msg == "1") {
+                            alert("修改成功！");
+                            location.href="/dns/record?did="+did;
+                        } else {
+                            alert("提示：修改失败！");
+                            return false;
+                        }
+                        },
+                    error:function(){
+                        alert("提示：服务器内部错误！");
+                        return false;
+                        },
+                    });
+            };
         </script>
         {% include "xk_footer.html" %}
 	</body>
