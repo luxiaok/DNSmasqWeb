@@ -6,13 +6,16 @@ from xk_handler import xk_login
 from xk_handler import xk_index
 from xk_handler import xk_test
 from xk_handler import xk_public
+from xk_handler import xk_dhcp
+from xk_handler import xk_dns
 
 HandlersURL = [
     (r"/(|login)/?", xk_login.LoginHandler),
     (r"/logout", xk_login.LogoutHandler),
     (r"/dashboard/?", xk_index.IndexHandler),
-    (r"/domain", xk_index.DomainHandler),
-    (r"/record", xk_index.RecordHandler),
+    (r"/dns/domain", xk_dns.DnsDomainHandler),
+    (r"/dns/record", xk_dns.DnsRecordHandler),
+    (r"/dhcp/pool", xk_dhcp.DhcpPoolHandler),
     (r"/public/api", xk_public.PublicAPIHandler),
     (r"/test", xk_test.TestHandler),
     #(r"/(favicon\.ico)", tornado.web.StaticFileHandler, dict(path=settings['static_path']+"images/icon")),
