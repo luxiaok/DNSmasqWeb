@@ -51,11 +51,11 @@
 							</tr>
                             {% for d in domains %}
                             {% if d['status'] == 'yes' %}
-                            <tr>
+                            <tr id="line_{{d['id']}}">
                             {% set st_msg = "暂停" %}
                             {% set fun_value = "no" %}
                             {% else %}
-							<tr  class="error">
+							<tr id="line_{{d['id']}}" class="error">
                             {% set st_msg = "开启" %}
                             {% set fun_value = "yes" %}
                             {% endif %}
@@ -66,11 +66,24 @@
                                 <td>{{ d['up_time'] }}</td>
                                 <td>{{ d['comment'] or '' }}</td>
                                 <td>
-                                    <a href="javascript:void(0);">编辑</a> |
+                                    <a href="javascript:void(0);" onclick="to_edit({{d['id']}})">编辑</a> |
                                     <a href="/public/api?module=domain&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该域名？');">{{st_msg}}</a> |
                                     <a href="/public/api?module=domain&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该域名，并且同时删除该域名所有记录？');">删除</a>
                                 </td>
 							</tr>
+                            {# 可编辑状态 #}
+                            <tr id="edit_line_{{d['id']}}" class="display_no">
+                                <td><input type="checkbox"> {{loop.index}}</td>
+                                <td><input type="text" class="input-medium" value="{{d['domain']}}" name="domain_{{d['id']}}" id="domain_{{d['id']}}"></td>
+                                <td><input type="text" class="input-medium" value="{{d['file']}}" name="file_{{d['id']}}" id="file_{{d['id']}}"></td>
+                                <td>{{d['create_time']}}</td>
+                                <td>{{d['up_time']}}</td>
+                                <td><input type="text" class="input-medium" value="{{d['comment'] or ''}}" name="comment_{{d['id']}}" id="comment_{{d['id']}}"></td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="save_info({{d['id']}});">保存</a> |
+                                    <a href="javascript:void(0);" onclick="to_line({{d['id']}})">取消</a>
+                                </td>
+                            </tr>
                             {% endfor %}
 						</tbody>
 					</table>
@@ -135,6 +148,43 @@
                 } else {
                     $("#file").val('');
                 };
+            };
+            function to_edit(id){
+                show_id = "#line_" + id;
+                edit_id = "#edit_line_" + id;
+                $(show_id).addClass("display_no");
+                $(edit_id).removeClass("display_no");
+            };
+            function to_line(id){
+                show_id = "#line_" + id;
+                edit_id = "#edit_line_" + id;
+                $(show_id).removeClass("display_no");
+                $(edit_id).addClass("display_no");
+            };
+            /* 编辑保存记录 */
+            function save_info(id){
+                domain = $("#domain_"+id).val();
+                file = $("#file_"+id).val();
+                comment = $("#comment_"+id).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/dns/domain",
+                    data: { "id":id, "domain":domain, "file":file, "comment":comment, "fun":"edit" },
+                    dataType: "text",
+                    success: function(msg){
+                        if (msg == "1") {
+                            alert("修改成功！");
+                            location.href="/dns/domain";
+                        } else {
+                            alert("提示：修改失败！");
+                            return false;
+                        }
+                        },
+                    error:function(){
+                        alert("提示：服务器内部错误！");
+                        return false;
+                        },
+                    });
             };
         </script>
         {% include "xk_footer.html" %}

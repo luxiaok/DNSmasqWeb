@@ -17,16 +17,22 @@ class DnsDomainHandler(BaseHandler):
         domain = self.get_argument("domain")
         file = self.get_argument("file")
         comment = self.get_argument("comment")
-        if_domain = self.db.get("select id,domain from xk_domain where domain = %s",domain)
-        if if_domain:
-            self.write("2")
-            return
-        f = open("/etc/dnsmasq.d/" + file,'w')
-        f.write("# "+domain+"\n")
-        f.close()
-        file_md5 = self.get_md5("/etc/dnsmasq.d/"+file)
-        self.db.execute("insert into xk_domain (domain,file,file_md5,create_time,comment) values (%s,%s,%s,%s,%s)",domain,file,file_md5,self.get_time(),comment)
-        self.write("1")
+        fun = self.get_argument("fun","add")
+        if fun == "add":
+            if_domain = self.db.get("select id,domain from xk_domain where domain = %s",domain)
+            if if_domain:
+                self.write("2")
+                return
+            f = open("/etc/dnsmasq.d/" + file,'w')
+            f.write("# "+domain+"\n")
+            f.close()
+            file_md5 = self.get_md5("/etc/dnsmasq.d/"+file)
+            self.db.execute("insert into xk_domain (domain,file,file_md5,create_time,comment) values (%s,%s,%s,%s,%s)",domain,file,file_md5,self.get_time(),comment)
+            self.write("1")
+        elif fun == "edit":
+            id_  = self.get_argument("id")
+            self.db.execute("update xk_domain set domain = %s, file = %s, comment = %s where id = %s",domain,file,comment,id_)
+            self.write("1")
 
 class DnsRecordHandler(BaseHandler):
     @Auth
