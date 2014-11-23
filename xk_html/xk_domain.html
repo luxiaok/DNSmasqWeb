@@ -39,8 +39,8 @@
 						<tbody>
                             <tr id="add_line" class="display_no">
 								<td></td>
-                                <td><input type="text" name="domain" id="domain"  class="input-medium" onkeyup="set_file_value();"></td>
-                                <td><input type="text" name="file" id="file"  class="input-medium" onblur="set_file_value();"></td>
+                                <td><input type="text" name="domain" id="domain"  class="input-medium" onkeyup="set_file_value('domain','file');"></td>
+                                <td><input type="text" name="file" id="file"  class="input-medium" onblur="set_file_value('domain','file');"></td>
                                 <td>{{get_time()}}</td>
                                 <td>{{get_time()}}</td>
                                 <td><input type="text" name="comment" id="comment"  class="input-medium"></td>
@@ -74,7 +74,7 @@
                             {# 可编辑状态 #}
                             <tr id="edit_line_{{d['id']}}" class="display_no">
                                 <td><input type="checkbox"> {{loop.index}}</td>
-                                <td><input type="text" class="input-medium" value="{{d['domain']}}" name="domain_{{d['id']}}" id="domain_{{d['id']}}"></td>
+                                <td><input type="text" class="input-medium" value="{{d['domain']}}" name="domain_{{d['id']}}" id="domain_{{d['id']}}" onkeyup="set_file_value('domain_'+{{d['id']}},'file_'+{{d['id']}});"></td>
                                 <td><input type="text" class="input-medium" value="{{d['file']}}" name="file_{{d['id']}}" id="file_{{d['id']}}"></td>
                                 <td>{{d['create_time']}}</td>
                                 <td>{{d['up_time']}}</td>
@@ -141,12 +141,13 @@
             function cancel_add(){
                 $("#add_line").addClass("display_no");
             };
-            function set_file_value(){
-                d = $("#domain").val();
+            /* 同步动态输入域名配置文件 */
+            function set_file_value(id1,id2){
+                d = $("#"+id1).val();
                 if ( d != '' ) {
-                    $("#file").val(d + ".conf");
+                    $("#"+id2).val(d + ".conf");
                 } else {
-                    $("#file").val('');
+                    $("#"+id2).val('');
                 };
             };
             function to_edit(id){
