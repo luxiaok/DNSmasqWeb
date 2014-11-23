@@ -1,0 +1,41 @@
+body{
+    background: #444 url(../images/login_bg.png);
+    font-family:"Microsoft YaHei";
+}
+.loginBox{
+    width:280px;
+    height:220px;
+    padding:0 20px;
+    border:1px solid #fff;
+    color:#000;
+    margin-top:40px;
+    border-radius:8px;
+    background: white;
+    box-shadow:0 0 15px #222;
+    background: -moz-linear-gradient(top, #fff, #efefef 8%);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f4f4f4));
+    font:14px/2em 'Microsoft YaHei' ;
+    position: absolute;
+    left:55%;
+    top:45%;
+    margin-left:-210px;
+    margin-top:-115px;
+}
+.loginBox h2{
+    height:45px;
+    font-size:20px;
+    font-weight:normal;
+}
+.loginBox span{
+    padding-right: 12px;
+}
+.LoginFooter {
+    width: 100%;
+    text-align: center;
+    color: #FFF;
+    position: fixed;
+    bottom: 60px;
+}
+.LoginFooter a {
+    color: #FFF;
+}

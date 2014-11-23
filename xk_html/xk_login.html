@@ -4,24 +4,29 @@
 		<meta charset="utf-8">
 		<title>Login - DNSmasqWeb - Desgin By Xiaok</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-		<link href="static/css/xk_dnsmasqweb.css" rel="stylesheet">
-                <!--[if lt IE 9]><script src="static/js/html5shiv.min.js"></script><![endif]-->
+		<link href="{{ static_url('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ static_url('bootstrap/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+        <link href="{{ static_url('css/xk_login.css') }}" rel="stylesheet">
+        <!--[if lt IE 9]><script src="{{ static_url('js/html5shiv.min.js') }}"></script><![endif]-->
 	</head>
 	<body>
 		<div id="login-page" class="container">
-			<h1>DNSmasqWeb</h1>
-			<form id="login-form" class="well" method="post">
-			<label>用户名 <input type="text" class="span2" placeholder="Username" name="username"/></label>
-			<label>密　码 <input type="password" class="span2" placeholder="Password" name="password"/></label>
-			<label class="checkbox"> <input type="checkbox" value="yes" name="remember"/> 记住登录</label>
-			<button type="submit" class="btn">忘记密码</button>　
-			<button type="submit" class="btn btn-primary">登　录</button>
-		    </form>
-		</div>
-		<script src="static/js/jquery-1.8.3.min.js"></script>
-		<script src="static/bootstrap/js/bootstrap.min.js"></script>
-        {% include "xk_footer.html" %}
+        <form method="post">
+        <section class="loginBox span7">
+            <h2>DnsMasq Web</h2>
+            <p><span>用户名</span><input type="text" name="username" placeholder="Username"/></p>
+            <p><span>密　码</span><input type="password" name="password" placeholder="Password"/></p>
+            <section class="row-fluid">
+                <section class="span8"><label><input type="checkbox" name="remember" value="yes"/> 记住登录</label></section>
+                <section class="span1"><input type="submit" value="登　录" class="btn btn-primary"></section>
+            </section>
+        </section>
+        </form>
+        </div>
+        <div class="LoginFooter">
+            <a href="http://github.luxiaok.com/DNSmasqWeb" target="_blank">DnsMasqWeb Project</a> - Desgin By
+            <a href="http://github.luxiaok.com" target="_blank">Xiaok</a>
+        </div>
+
 	</body>
 </html>
