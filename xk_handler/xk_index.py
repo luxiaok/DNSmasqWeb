@@ -105,6 +105,11 @@ class IndexHandler(BaseHandler):
         version = v1.read().strip()
         return {"version":version, "status":status}
 
+    def get_cpu(self):
+        cpu = os.popen('top -bi -n 1').read().split('\n')[2]
+        cpu = cpu.split(", ")[3].split('%')[0]
+        return 100.0 - float(cpu)
+
     @Auth
     def get(self):
         #print self.get_login_url()
@@ -119,7 +124,8 @@ class IndexHandler(BaseHandler):
             "os":self.get_os_version(),
             "hdd":self.get_hdd(),
             "dnsmasq":self.get_dnsmasq(),
-            "hostname":self.get_hostname()
+            "hostname":self.get_hostname(),
+            "cpu":self.get_cpu()
         }
         #print data
         self.render2("xk_index.html",dashboard="active",data=data)

@@ -54,8 +54,8 @@
                             <span class="meta">流出流量 <em>{{format_size(data['net']['out'])}}</em> | 流入流量 <em>{{format_size(data['net']['in'])}}</em></span>
 						</li>
                         <li>
-							<i class="icon-adjust"></i> <a class="title" href="javascript:void(0);">CPU使用率</a> 8%
-                            <div class="progress" title="8%"><div class="bar" style="width: 8%;"></div></div>
+							<i class="icon-adjust"></i> <a class="title" href="javascript:void(0);">CPU使用率</a> {{data['cpu']}}%
+                            <div class="progress" title="{{data['cpu']}}%"><div class="bar" style="width: {{data['cpu']}}%;"></div></div>
 						</li>
                         <li>
 							<i class="icon-filter"></i> <a class="title" href="javascript:void(0);">系统空闲率</a> {{data['uptime']['free']}}%
