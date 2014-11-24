@@ -95,8 +95,8 @@
                                 <td>{{r['comment']}}</td>
 								<td>
                                     <a href="javascript:void(0);" onclick="to_edit({{r['id']}})">编辑</a> |
-                                    <a href="public/api?module=record&fun=ch_status&id={{r['id']}}&value={{fun_value}}&did={{did}}" onclick="return confirm('确认{{st_msg}}该记录？');">{{st_msg}}</a> |
-                                    <a href="public/api?module=record&fun=del&id={{r['id']}}&did={{did}}" onclick="return confirm('确认删除该记录？');">删除</a>
+                                    <a href="/public/api?module=record&fun=ch_status&id={{r['id']}}&value={{fun_value}}&did={{did}}" onclick="return confirm('确认{{st_msg}}该记录？');">{{st_msg}}</a> |
+                                    <a href="/public/api?module=record&fun=del&id={{r['id']}}&did={{did}}" onclick="return confirm('确认删除该记录？');">删除</a>
                                 </td>
 							</tr>
                             {# 可编辑状态 #}
