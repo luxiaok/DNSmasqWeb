@@ -95,6 +95,12 @@ class IndexHandler(BaseHandler):
         os_version = OS[1]
         return "%s %s %s" % ( os_name,os_version,os_arch)
 
+    def get_dnsmasq(self):
+        status = os.system("/etc/init.d/dnsmasq status")
+        v1 = os.popen("dnsmasq --version | head -1 | awk '{print $3}'")
+        version = v1.read().strip()
+        return {"version":version, "status":status}
+
     @Auth
     def get(self):
         #print self.get_login_url()
@@ -107,7 +113,8 @@ class IndexHandler(BaseHandler):
             "mem":self.get_mem(),
             "load":self.get_load(),
             "os":self.get_os_version(),
-            "hdd":self.get_hdd()
+            "hdd":self.get_hdd(),
+            "dnsmasq":self.get_dnsmasq()
         }
         #print data
         self.render2("xk_index.html",dashboard="active",data=data)

@@ -67,12 +67,23 @@
 					<h4>系统状态</h4>
 					<ul class="files zebra-list">
 						<li>
+                            {% if data['dnsmasq']['status'] == 0 %}
+                                {% set st_color = 'green' %}
+                                {% set st_msg = '运行中 ...' %}
+                                {% set next_run = 'stop' %}
+                                {% set next_run_msg = '停止' %}
+                            {% else %}
+                                {% set st_color = 'red' %}
+                                {% set st_msg = '服务异常' %}
+                                {% set next_run = 'start' %}
+                                {% set next_run_msg = '启动' %}
+                            {% endif %}
 							<i class="icon-asterisk"></i>
-                            <a class="title" href="javascript:void(0);">DNSmasq</a>　服务运行中 ...　
+                            <a class="title" href="javascript:void(0);" onclick="alert('DNSmasq {{st_msg}}')">DNSmasq</a>　<font color="{{st_color}}">{{st_msg}}</font>　
                             <a class="btn btn-success" href="javascript:void(0);" title="重新加载服务配置" onclick="run_sevice('reload')">Relaod</a>
                             <a class="btn btn-warning" href="javascript:void(0);" title="重启服务" onclick="run_sevice('restart')">Restart</a>
-                            <a class="btn btn-danger" href="javascript:void(0);" title="停止服务" onclick="run_sevice('stop')">Stop</a>
-                            <span class="meta">版本 <em>2.48</em></span>
+                            <a class="btn btn-danger" href="javascript:void(0);" title="{{next_run_msg}}服务" onclick="run_sevice('{{next_run}}')">{{next_run | title}}</a>
+                            <span class="meta">版本 <em>{{data['dnsmasq']['version']}}</em></span>
 						</li>
 						<li>
 							<i class="icon-star-empty"></i> <a class="title" href="javascript:void(0);">系统负载</a>
@@ -104,6 +115,7 @@ function run_sevice(fun) {
         success: function (msg) {
             if (msg == "0") {
                 alert("操作成功！");
+                location.reload();
                 return true;
             } else if (msg == "1") {
                 alert("操作失败！");
