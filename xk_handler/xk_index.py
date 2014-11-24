@@ -5,6 +5,10 @@ from xk_application.xk_main import *
 import platform,os
 
 class IndexHandler(BaseHandler):
+    def get_hostname(self):
+        h = os.popen("hostname")
+        return h.read().strip()
+
     # 获取服务器运行时间
     def get_uptime(self):
         f = open('/proc/uptime','r')
@@ -114,7 +118,8 @@ class IndexHandler(BaseHandler):
             "load":self.get_load(),
             "os":self.get_os_version(),
             "hdd":self.get_hdd(),
-            "dnsmasq":self.get_dnsmasq()
+            "dnsmasq":self.get_dnsmasq(),
+            "hostname":self.get_hostname()
         }
         #print data
         self.render2("xk_index.html",dashboard="active",data=data)
