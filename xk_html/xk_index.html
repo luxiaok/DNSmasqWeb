@@ -69,9 +69,9 @@
 						<li>
 							<i class="icon-asterisk"></i>
                             <a class="title" href="javascript:void(0);">DNSmasq</a>　服务运行中 ...　
-                            <a class="btn btn-success" href="javascript:void(0);" title="重新加载服务配置">Relaod</a>
-                            <a class="btn btn-warning" href="javascript:void(0);" title="重启服务">Restart</a>
-                            <a class="btn btn-danger" href="javascript:void(0);" title="停止服务">Stop</a>
+                            <a class="btn btn-success" href="javascript:void(0);" title="重新加载服务配置" onclick="run_sevice('reload')">Relaod</a>
+                            <a class="btn btn-warning" href="javascript:void(0);" title="重启服务" onclick="run_sevice('restart')">Restart</a>
+                            <a class="btn btn-danger" href="javascript:void(0);" title="停止服务" onclick="run_sevice('stop')">Stop</a>
                             <span class="meta">版本 <em>2.48</em></span>
 						</li>
 						<li>
@@ -94,5 +94,29 @@
 		<script src="xk_static/bootstrap/js/bootstrap.min.js"></script>
 		<script src="xk_static/js/xk_dnsmasqweb.js"></script>
         {% include "xk_footer.html" %}
-	</body>
+<script type="text/javascript">
+function run_sevice(fun) {
+    $.ajax({
+        type: "GET",
+        url: "/public/api",
+        data: { "module":"dnsmasq","fun":fun },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "0") {
+                alert("操作成功！");
+                return true;
+            } else if (msg == "1") {
+                alert("操作失败！");
+                return false;
+            } else {
+                alert("遇到未知问题！");
+            }
+        },
+        error: function () {
+            alert("提示：服务器内部错误！");
+        },
+    });
+};
+</script>
+</body>
 </html>

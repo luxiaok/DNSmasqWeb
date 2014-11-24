@@ -10,7 +10,7 @@ class PublicAPIHandler(BaseHandler):
         module = self.get_argument("module")
         fun = self.get_argument("fun")
         value = self.get_argument("value",None)
-        id = self.get_argument("id")
+        id = self.get_argument("id",None)
         redirect_id = self.get_argument("did",None)
         if module == "record":
             if fun == "ch_status":
@@ -71,14 +71,12 @@ class PublicAPIHandler(BaseHandler):
                 else: # md5匹配不上
                     self.write("2") # 校验配置文件失败
 
-            elif fun == "reload":
-                pass
-            elif fun == "restat":
-                pass
-            elif fun == "stop":
-                pass
-            elif fun == "start":
-                pass
+            elif fun in ("reload","restart","start","stop"):
+                sv_rt = os.system("/etc/init.d/dnsmasq " + fun)
+                if sv_rt == 0:
+                    self.write("0") # 成功
+                else:
+                    self.write("1") # 失败
         elif module == "dhcp_host":
             if fun == "ch_status":
                 self.db.execute("update xk_dhcp_host set status = %s where id = %s",value,id)
