@@ -32,7 +32,7 @@
                     </select>　
                     {% if did > 0 %}
                     <input type="button" class="btn btn-danger" value="批量删除" onclick="">
-                    <input type="button" class="btn btn-warning" value="同步解析" onclick="rsync_dns();">
+                    <input type="button" class="btn btn-warning" value="同步解析" onclick="rsync_dns('no');">
                     <input type="button" class="btn btn-primary" value="添加记录" onclick="show_add();">
                     {% endif %}
                     </div>
@@ -191,17 +191,26 @@
                 did = $("#domain").val();
                 location.href="/dns/record?did="+did;
             };
-            function rsync_dns(){
+            function rsync_dns(force){
                 did = $("#domain").val();
                 $.ajax({
                     type: "GET",
                     url: "/public/api",
-                    data: { "module":"dnsmasq", "fun":"update", "id":did },
+                    data: { "module":"dnsmasq", "fun":"update", "id":did, "force":force },
                     dataType: "text",
                     success: function(msg){
-                        if (msg == "OK") {
+                        if (msg == "0") {
                             alert("同步成功！");
                             return true;
+                        } else if (msg == "1") {
+                            alert("DNSmasq服务重启失败！");
+                            return false;
+                        } else if (msg == "2") {
+                            if (confirm("域名配置文件MD5值校验失败，是否强制覆盖？")) {
+                                rsync_dns("yes");
+                            } else {
+                                return false;
+                            };
                         } else {
                             alert("提示：同步解析失败！");
                         }

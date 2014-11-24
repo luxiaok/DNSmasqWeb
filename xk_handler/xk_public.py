@@ -52,16 +52,25 @@ class PublicAPIHandler(BaseHandler):
                         file_content += i["domain"] + ',"' + i["value"] + '"\n'
                     elif i['type'] == "CNAME":
                         file_content += "cname=" + i['record'] + "." + i["domain"] + "," + i["value"] + "\n"
-                f = open("/etc/dnsmasq.d/" + i['file'],"w")
-                f.write(file_content)
-                f.close()
-                sv_rt = os.system("/etc/init.d/dnsmasq restart")
-                if sv_rt == 0:
-                    update_md5 = self.get_md5("/etc/dnsmasq.d/" + i['file'])
-                    self.db.execute("update xk_domain set file_md5 = %s where id = %s",update_md5,id)
-                    self.write("OK")
-                else:
-                    self.write("Failed")
+
+                force = self.get_argument("force","no")
+                check_md5 = i['file_md5']
+                if force == "no":
+                    check_md5 = self.get_md5("/etc/dnsmasq.d/" + i['file'])
+                if check_md5 == i['file_md5']:
+                    f = open("/etc/dnsmasq.d/" + i['file'],"w")
+                    f.write(file_content)
+                    f.close()
+                    sv_rt = os.system("/etc/init.d/dnsmasq restart")
+                    if sv_rt == 0:
+                        update_md5 = self.get_md5("/etc/dnsmasq.d/" + i['file'])
+                        self.db.execute("update xk_domain set file_md5 = %s where id = %s",update_md5,id)
+                        self.write("0") # 成功
+                    else:
+                        self.write("1") # 服务重启失败
+                else: # md5匹配不上
+                    self.write("2") # 校验配置文件失败
+
             elif fun == "reload":
                 pass
             elif fun == "restat":
