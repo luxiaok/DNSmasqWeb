@@ -12,18 +12,38 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 ## 二、运行环境 ##
 * OS：RHEL 6.5 x64
 * Python：2.7.8
-* DnsMasq：2.48
+* DnsMasq：2.72
 * Tornado：4.0.2
 * Jinja2：2.7.3
 
 注意：以上是测试运行正常的环境，其他环境请自行测试
 
 ## 三、DNSmasq配置说明 ##
-* 安装
+* 常规安装（版本：2.48）
 
 `yum -y install dnsmasq`
 
 `chkconfig dnsmasq on`
+
+* 编辑安装（版本：2.72）
+
+`wget http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.72.tar.gz`
+
+`tar zxf dnsmasq-2.72.tar.gz`
+
+`cd dnsmasq-2.72`
+
+`vim Makefile`
+
+`PREFIX = /usr/local/dnsmasq`
+
+`make && make install`
+
+`cp dnsmasq.conf.example /etc/dnsmasq.conf`
+
+`ln -s /usr/local/dnsmasq/sbin/dnsmasq /usr/sbin/`
+
+`dnsmasq --version`
 
 * 主配文件：/etc/dnsmasq.conf
 
