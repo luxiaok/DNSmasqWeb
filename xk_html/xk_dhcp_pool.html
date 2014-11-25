@@ -8,7 +8,8 @@
 		<title>DHCP管理 - DnsMasqWeb - Desgin By Xiaok</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="/xk_static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="/xk_static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="/xk_static/css/bootstrap-switch.css" rel="stylesheet">
+        <link href="/xk_static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 		<link href="/xk_static/css/xk_dnsmasqweb.css" rel="stylesheet">
 	</head>
 	<body>
@@ -17,28 +18,30 @@
 			<div class="row">
 				{% include "xk_nav.html" %}
 				<div class="span10">
-					<h4>
-						DHCP管理
-					</h4>
+					<h4>DHCP管理</h4>
                     <div class="pull-right">
+                        <input type="button" class="btn btn-primary" value="保 存" onclick="save_dhcp_config();">
                         <input type="button" class="btn btn-warning" value="同步配置" onclick="">
-                        <input type="button" class="btn btn-primary" value="添加地址池" onclick="show_add();">
-                    </div><br /><br />
+                    </div><br />
 
-                    <form class="form-horizontal display_no" id="add_line" method="post">
+                    <form class="form-horizontal" id="add_line" method="post">
 						<fieldset>
-							<legend>添加DHCP地址池</legend>
 							<div class="control-group">
-								<label class="control-label" for="name">名称</label>
+								<label class="control-label" for="status">DHCP开关</label>
 								<div class="controls">
-									<input type="text" class="input-xlarge" id="name" name="name"/>
+                                    {% if dhcp['xk_dhcp_status'] == 'yes' %}
+                                    {% set status = 'checked' %}
+                                    {% else %}
+                                    {% set status = '' %}
+                                    {% endif %}
+									<div class="switch switch-small"><input id="status" name="status" type="checkbox" {{status}}/></div>
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="range_start">地址池</label>
 								<div class="controls">
-									<input type="text" class="input-medium" id="range_start" name="range_start" value="192.168.1.10" /> -
-                                    <input type="text" class="input-medium" id="range_end" name="range_end" value="192.168.1.100" />
+									<input type="text" class="input-medium" id="range_start" name="range_start" value="{{dhcp['xk_dhcp_pool_start']}}" /> -
+                                    <input type="text" class="input-medium" id="range_end" name="range_end" value="{{dhcp['xk_dhcp_pool_stop']}}" />
 								</div>
 							</div>
                             <div class="control-group">
@@ -53,7 +56,7 @@
                                         <option value="255.255.248.0">255.255.248.0/21</option>
                                         <option value="255.255.252.0">255.255.252.0/22</option>
                                         <option value="255.255.254.0">255.255.254.0/23</option>
-                                        <option value="255.255.255.0" selected>255.255.255.0/24</option>
+                                        <option value="255.255.255.0">255.255.255.0/24</option>
                                         <option value="255.255.255.128">255.255.255.128/25</option>
                                         <option value="255.255.255.192">255.255.255.192/26</option>
                                         <option value="255.255.255.224">255.255.255.224/27</option>
@@ -68,13 +71,13 @@
                             <div class="control-group">
 								<label class="control-label" for="router">网关地址</label>
 								<div class="controls">
-									<input type="text" class="input-xlarge" id="router" name="router" />
+									<input type="text" class="input-xlarge" id="router" name="router" value="{{dhcp['xk_dhcp_pool_gw']}}" />
 								</div>
 							</div>
                             <div class="control-group">
 								<label class="control-label" for="domain">域名</label>
 								<div class="controls">
-									<input type="text" class="input-xlarge" id="domain" name="domain" value="luxiaok.com" />
+									<input type="text" class="input-xlarge" id="domain" name="domain" value="{{dhcp['xk_dhcp_pool_domain']}}" />
 								</div>
 							</div>
                             <div class="control-group">
@@ -96,84 +99,41 @@
 								</div>
 							</div>
                             <div class="control-group">
-								<label class="control-label" for="dns1">域名服务器</label>
+								<label class="control-label" for="dns1">主域名服务器</label>
 								<div class="controls">
-									<input type="text" class="input-xlarge" id="dns1" name="dns1" value="114.114.114.114" /> 主DNS
-								</div><br />
+									<input type="text" class="input-xlarge" id="dns1" name="dns1" value="{{dhcp['xk_dhcp_pool_dns1']}}" />
+								</div>
+							</div>
+                            <div class="control-group">
+								<label class="control-label" for="dns2">辅助域名服务器</label>
                                 <div class="controls">
-									<input type="text" class="input-xlarge" id="dns2" name="dns2" value="8.8.8.8" /> 辅助DNS
+									<input type="text" class="input-xlarge" id="dns2" name="dns2" value="{{dhcp['xk_dhcp_pool_dns2']}}" />
 								</div>
 							</div>
                             <div class="control-group">
 								<label class="control-label" for="comment">备注信息</label>
 								<div class="controls">
-									<input type="text" class="input-xlarge" id="comment" name="comment" />
+									<input type="text" class="input-xlarge" id="comment" name="comment" value="{{dhcp['xk_dhcp_pool_comment']}}" />
 								</div>
-							</div>
-							<div class="form-actions">
-								<a href="javascript:void(0)" class="btn" onclick="cancel_add();">取消</a>　　<a href="javascript:void(0);" class="btn btn-primary" onclick="add_dhcp()">保存</a>
 							</div>
 						</fieldset>
 					</form>
-
-					<table class="table table-bordered table-striped table-hover table-condensed">
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="checkbox_all"> #</th>
-                                <th>名称</th>
-                                <th>开始地址</th>
-								<th>结束地址</th>
-								<th>子网掩码</th>
-								<th>网关地址</th>
-								<th>DNS地址</th>
-                                <th>租约</th>
-                                <th>域名</th>
-                                <th>操作</th>
-							</tr>
-						</thead>
-						<tbody>
-                            {% for d in dhcps %}
-                            {% if d['status'] == 'yes' %}
-                            <tr>
-                            {% set st_msg = "暂停" %}
-                            {% set fun_value = "no" %}
-                            {% else %}
-							<tr  class="error">
-                            {% set st_msg = "开启" %}
-                            {% set fun_value = "yes" %}
-                            {% endif %}
-								<td><input type="checkbox"/> {{ loop.index }}</td>
-                                <td title="{{ d['comment'] or '' }}">{{ d['name'] }}</td>
-                                <td>{{ d['range_start'] }}</td>
-                                <td>{{ d['range_end'] }}</td>
-                                <td>{{ d['netmask'] }}</td>
-                                <td>{{ d['router'] }}</td>
-                                <td>{{ d['dns1'] }}</td>
-                                <td>{{ d['lease'] }}</td>
-                                <td>{{ d['domain'] or '' }}</td>
-                                <td>
-                                    <a href="/dhcp/host?id={{d['id']}}">保留地址</a> |
-                                    <a href="javascript:void(0);">编辑</a> |
-                                    <a href="/public/api?module=dhcp_pool&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}该地址池？');">{{st_msg}}</a> |
-                                    <a href="/public/api?module=dhcp_pool&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该地址池，并且同时删除所有DHCP规则？');">删除</a>
-                                </td>
-							</tr>
-                            {% endfor %}
-						</tbody>
-					</table>
-					<ul class="pager">
-						<li class="next">
-							<a href="more">More &rarr;</a>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>
 		<script src="/xk_static/js/jquery-1.8.3.min.js"></script>
 		<script src="/xk_static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="/xk_static/js/xk_dnsmasqweb.js"></script>
+		<script src="/xk_static/js/bootstrap-switch.js"></script>
+        <script src="/xk_static/js/xk_dnsmasqweb.js"></script>
         <script type="text/javascript">
-            function add_dhcp() {
+            $("#status").bootstrapSwitch();
+            $("#netmask").val("{{dhcp['xk_dhcp_pool_netmask']}}");
+            $("#lease").val("{{dhcp['xk_dhcp_pool_lease']}}");
+            function save_dhcp_config() {
+                status = "no";
+                if($('#status').is(':checked')) {
+                    status = "yes";
+                };
                 range_start = $("#range_start").val();
                 range_end = $("#range_end").val();
                 netmask = $("#netmask").val();
@@ -183,12 +143,6 @@
                 domain = $("#domain").val();
                 comment = $("#comment").val();
                 router = $("#router").val();
-                name = $("#name").val();
-                if ( name == '') {
-                    alert("请输入地址池名称！");
-                    $("#name").focus();
-                    return false;
-                };
                 if ( range_start == '') {
                     alert("请输入起始地址！");
                     $("#range_start").focus();
@@ -202,18 +156,14 @@
                 $.ajax({
                     type: "POST",
                     url: "/dhcp/pool",
-                    data: {'range_start':range_start, 'range_end':range_end, 'netmask':netmask, 'dns1':dns1, 'dns2':dns2, 'lease':lease, 'name':name, 'domain':domain,'router':router, 'comment':comment },
+                    data: {'status':status, 'range_start':range_start, 'range_end':range_end, 'netmask':netmask, 'dns1':dns1, 'dns2':dns2, 'lease':lease, 'domain':domain,'router':router, 'comment':comment },
                     dataType: "text",
                     success: function(msg){
                         if (msg == "1") {
-                            alert("添加成功！");
+                            alert("保存成功！");
                             window.location.href="/dhcp/pool";
-                        } else if (msg == "2") {
-                            alert("地址池已存在！");
-                            $("#name").focus();
-                            return false;
                         } else {
-                            alert("提示：添加地址池失败！");
+                            alert("提示：保存失败！");
                             return false;
                         }
                         },
@@ -222,13 +172,6 @@
                         return false;
                         },
                     });
-            };
-            function show_add(){
-                $("#add_line").removeClass("display_no");
-                $("#name").focus();
-            };
-            function cancel_add(){
-                $("#add_line").addClass("display_no");
             };
         </script>
         {% include "xk_footer.html" %}
