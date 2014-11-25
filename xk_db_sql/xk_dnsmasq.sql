@@ -33,7 +33,7 @@ CREATE TABLE `xk_dhcp_host` (
   `status` varchar(3) NOT NULL DEFAULT 'yes' COMMENT '规则状态',
   `action` varchar(10) NOT NULL DEFAULT 'allow' COMMENT '规则动作',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,6 @@ CREATE TABLE `xk_dhcp_host` (
 
 LOCK TABLES `xk_dhcp_host` WRITE;
 /*!40000 ALTER TABLE `xk_dhcp_host` DISABLE KEYS */;
-INSERT INTO `xk_dhcp_host` VALUES (1,2,'win7','00:0c:29:e6:93:c4','192.168.1.7','111','2014-11-23 09:07:17','yes','allow'),(2,3,'test67','00:0c:29:e6:93:c8','192.168.3.17','linux','2014-11-23 09:33:47','yes','allow'),(3,3,'winxp','01:00:0c:29:aa:8b:c8','192.168.3.100','winxp','2014-11-23 09:38:05','yes','allow');
 /*!40000 ALTER TABLE `xk_dhcp_host` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,7 +77,7 @@ CREATE TABLE `xk_dhcp_pool` (
 
 LOCK TABLES `xk_dhcp_pool` WRITE;
 /*!40000 ALTER TABLE `xk_dhcp_pool` DISABLE KEYS */;
-INSERT INTO `xk_dhcp_pool` VALUES (1,'Pool_1','192.168.1.10','192.168.1.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'测试1','2014-11-23 07:54:17','yes'),(2,'Pool_3','192.168.2.10','192.168.2.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'','2014-11-23 07:55:46','yes'),(3,'Pool_4','192.168.3.10','192.168.3.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'','2014-11-23 08:05:33','yes'),(4,'Pool_2','192.168.4.198','192.168.4.201','255.255.255.128','6h','192.168.188.211','192.168.188.211','114.114.114.114','luxiaok.com',NULL,'222222','2014-11-23 08:06:30','yes');
+INSERT INTO `xk_dhcp_pool` VALUES (1,'Pool_1','192.168.1.10','192.168.1.100','255.255.255.0','2h','192.168.188.210','192.168.188.218','192.168.188.219','test.com',NULL,'测试1','2014-11-23 07:54:17','no'),(4,'Pool_2','192.168.4.198','192.168.4.201','255.255.255.128','6h','192.168.188.211','192.168.188.211','114.114.114.114','luxiaok.com',NULL,'222222','2014-11-23 08:06:30','yes');
 /*!40000 ALTER TABLE `xk_dhcp_pool` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +98,7 @@ CREATE TABLE `xk_domain` (
   `comment` varchar(200) NOT NULL COMMENT '备注',
   `status` varchar(3) NOT NULL DEFAULT 'yes' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +107,7 @@ CREATE TABLE `xk_domain` (
 
 LOCK TABLES `xk_domain` WRITE;
 /*!40000 ALTER TABLE `xk_domain` DISABLE KEYS */;
-INSERT INTO `xk_domain` VALUES (1,'luxiaok.com','luxiaok.com.conf','51f70331b41b7d32d9c88a20a81b90df','2014-11-22 22:25:26','2014-11-22 19:19:43','测试域名','yes'),(2,'test.com','test.com.conf','6f91829bebd8663db73498090ab69557','2014-11-22 22:34:00','2014-11-22 19:47:02','测试域名2','yes');
+INSERT INTO `xk_domain` VALUES (1,'luxiaok.com','luxiaok.com.conf','5dcd3226a211b004c9376d864ab99d7f','2014-11-22 22:25:26','2014-11-24 14:28:25','测试域名','yes'),(2,'test.com','test.com.conf','6f91829bebd8663db73498090ab69557','2014-11-22 22:34:00','2014-11-22 19:47:02','测试域名2','yes'),(3,'qq.com','qq.com.conf','4228386eafc1a2f3dc4c908f84d34a6b','2014-11-23 17:58:32','2014-11-23 09:58:32','QQ域名','yes'),(4,'google.com','google.com.conf','1023883e5729868925ffca6032eb5300','2014-11-24 22:48:07','2014-11-24 15:34:25','Google','yes');
 /*!40000 ALTER TABLE `xk_domain` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +128,7 @@ CREATE TABLE `xk_login_logs` (
   `login_status` int(1) NOT NULL DEFAULT '0' COMMENT '0:成功，1:失败，2:用户被禁用，3:用户名错误，4:密码错误，5:异常，6:未知状态',
   `user_agent` varchar(200) DEFAULT NULL COMMENT '用户代理',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,8 +137,36 @@ CREATE TABLE `xk_login_logs` (
 
 LOCK TABLES `xk_login_logs` WRITE;
 /*!40000 ALTER TABLE `xk_login_logs` DISABLE KEYS */;
-INSERT INTO `xk_login_logs` VALUES (1,1,'luxiaok','2014-11-22 09:03:00','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(2,1,'luxiaok','2014-11-22 09:03:08','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(3,1,'luxiaok','2014-11-22 09:06:16','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(4,2,'admin','2014-11-22 09:06:40','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(5,1,'luxiaok','2014-11-22 09:58:03','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(6,1,'luxiaok','2014-11-22 10:03:53','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(7,1,'luxiaok','2014-11-22 10:05:19','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(8,1,'luxiaok','2014-11-22 10:20:29','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(9,1,'luxiaok','2014-11-23 02:38:29','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(10,1,'luxiaok','2014-11-23 03:20:17','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(11,1,'luxiaok','2014-11-23 03:25:42','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(12,1,'luxiaok','2014-11-23 04:16:41','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(13,1,'luxiaok','2014-11-23 04:20:18','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(14,1,'luxiaok','2014-11-23 04:27:27','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(15,1,'luxiaok','2014-11-23 08:03:08','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)');
+INSERT INTO `xk_login_logs` VALUES (1,1,'luxiaok','2014-11-22 09:03:00','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(2,1,'luxiaok','2014-11-22 09:03:08','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(3,1,'luxiaok','2014-11-22 09:06:16','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(4,2,'admin','2014-11-22 09:06:40','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(5,1,'luxiaok','2014-11-22 09:58:03','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(6,1,'luxiaok','2014-11-22 10:03:53','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(7,1,'luxiaok','2014-11-22 10:05:19','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(8,1,'luxiaok','2014-11-22 10:20:29','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(9,1,'luxiaok','2014-11-23 02:38:29','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(10,1,'luxiaok','2014-11-23 03:20:17','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(11,1,'luxiaok','2014-11-23 03:25:42','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(12,1,'luxiaok','2014-11-23 04:16:41','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(13,1,'luxiaok','2014-11-23 04:20:18','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(14,1,'luxiaok','2014-11-23 04:27:27','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(15,1,'luxiaok','2014-11-23 08:03:08','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(16,1,'luxiaok','2014-11-23 12:23:00','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(17,1,'luxiaok','2014-11-24 14:20:54','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'),(18,1,'luxiaok','2014-11-25 14:34:16','192.168.1.7',NULL,0,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)'),(19,1,'luxiaok','2014-11-25 15:10:21','192.168.1.7',NULL,0,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36');
 /*!40000 ALTER TABLE `xk_login_logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `xk_options`
+--
+
+DROP TABLE IF EXISTS `xk_options`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `xk_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(20) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `value` varchar(200) DEFAULT NULL,
+  `comment` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `xk_options`
+--
+
+LOCK TABLES `xk_options` WRITE;
+/*!40000 ALTER TABLE `xk_options` DISABLE KEYS */;
+INSERT INTO `xk_options` VALUES (1,'dhcp','xk_dhcp_status','yes','DHCP开关'),(2,'dhcp','xk_dhcp_pool_start','192.168.1.11','DHCP地址池开始地址'),(3,'dhcp','xk_dhcp_pool_stop','192.168.1.101','DHCP地址池结束地址'),(4,'dhcp','xk_dhcp_pool_netmask','255.255.255.0','DHCP地址池子网掩码'),(5,'dhcp','xk_dhcp_pool_lease','6h','DHCP租约'),(6,'dhcp','xk_dhcp_pool_gw','192.168.1.254','DHCP默认网关'),(7,'dhcp','xk_dhcp_pool_dns1','114.114.114.114','DHCP主DNS服务器'),(8,'dhcp','xk_dhcp_pool_dns2','8.8.8.8','DHCP辅助DNS服务器'),(9,'dhcp','xk_dhcp_pool_domain','luxiaok.com','DHCP缺省域名'),(10,'dhcp','xk_dhcp_pool_ntp','','DHCP时间服务器'),(11,'dhcp','xk_dhcp_pool_comment','test','DHCP地址池备注');
+/*!40000 ALTER TABLE `xk_options` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -161,7 +188,7 @@ CREATE TABLE `xk_record` (
   `comment` varchar(100) DEFAULT NULL COMMENT '备注',
   `status` varchar(3) NOT NULL DEFAULT 'yes' COMMENT '状态值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +197,7 @@ CREATE TABLE `xk_record` (
 
 LOCK TABLES `xk_record` WRITE;
 /*!40000 ALTER TABLE `xk_record` DISABLE KEYS */;
-INSERT INTO `xk_record` VALUES (1,1,'www','A','192.168.1.11',NULL,'2014-11-22 23:23:00','2014-11-22 15:23:00','网站','yes'),(2,2,'blog','A','192.168.1.1',NULL,'2014-11-22 23:29:06','2014-11-22 16:59:01','测试博客','yes'),(4,2,'news','A','192.168.1.2',NULL,'2014-11-22 23:32:23','2014-11-22 17:02:03','新网页','yes'),(5,2,'mail','A','113.108.16.61',NULL,'2014-11-23 00:08:09','2014-11-22 16:08:09','','yes'),(7,2,'www','A','192.168.2.9',NULL,'2014-11-23 01:57:21','2014-11-22 17:57:21','','yes'),(8,1,'blog','A','192.168.1.99',NULL,'2014-11-23 02:06:54','2014-11-22 18:06:54','','yes'),(9,1,'@','MX','mail.luxiaok.com',50,'2014-11-23 03:05:35','2014-11-22 19:19:40','MX记录','yes'),(10,1,'mail','A','192.168.2.28',NULL,'2014-11-23 03:05:57','2014-11-22 19:05:57','','yes'),(11,2,'@','MX','mail.test.com',12,'2014-11-23 03:20:14','2014-11-22 19:20:14','','yes'),(12,2,'@','TXT','Hello World',NULL,'2014-11-23 03:24:57','2014-11-22 19:24:57','','yes'),(13,2,'hello','TXT','Hello Luxiaok',NULL,'2014-11-23 03:28:26','2014-11-22 19:28:26','','yes'),(14,2,'mail3','CNAME','mail.test.com',NULL,'2014-11-23 03:46:55','2014-11-22 19:46:55','','yes');
+INSERT INTO `xk_record` VALUES (1,1,'www2','A','192.168.1.12',NULL,'2014-11-22 23:23:00','2014-11-23 11:32:51','2222','yes'),(2,2,'blog','A','192.168.1.1',NULL,'2014-11-22 23:29:06','2014-11-22 16:59:01','测试博客','yes'),(4,2,'news','A','192.168.1.2',NULL,'2014-11-22 23:32:23','2014-11-22 17:02:03','新网页','yes'),(5,2,'mail','A','113.108.16.61',NULL,'2014-11-23 00:08:09','2014-11-22 16:08:09','','yes'),(7,2,'www','A','192.168.2.9',NULL,'2014-11-23 01:57:21','2014-11-22 17:57:21','','yes'),(8,1,'blog','A','192.168.1.99',NULL,'2014-11-23 02:06:54','2014-11-22 18:06:54','','yes'),(9,1,'@','MX','mail.luxiaok.com',50,'2014-11-23 03:05:35','2014-11-22 19:19:40','MX记录','yes'),(10,1,'mail','A','192.168.2.28',NULL,'2014-11-23 03:05:57','2014-11-22 19:05:57','','yes'),(11,2,'@','MX','mail.test.com',12,'2014-11-23 03:20:14','2014-11-22 19:20:14','','yes'),(12,2,'@','TXT','Hello World',NULL,'2014-11-23 03:24:57','2014-11-22 19:24:57','','yes'),(13,2,'hello','TXT','Hello Luxiaok',NULL,'2014-11-23 03:28:26','2014-11-22 19:28:26','','yes'),(14,2,'mail3','CNAME','mail.test.com',NULL,'2014-11-23 03:46:55','2014-11-22 19:46:55','','yes'),(15,1,'host1','CNAME','www.luxiaok.com',NULL,'2014-11-23 17:58:04','2014-11-24 14:28:24','','yes'),(16,3,'www','A','180.96.86.192',NULL,'2014-11-23 17:59:19','2014-11-23 09:59:19','','yes'),(17,1,'www','A','192.168.1.118',NULL,'2014-11-24 22:24:17','2014-11-24 14:24:17','','yes'),(18,4,'','A','192.88.1.88',NULL,'2014-11-24 22:48:33','2014-11-24 15:33:27','测试泛解析','yes'),(19,4,'www','A','192.168.1.1',NULL,'2014-11-24 23:34:21','2014-11-24 15:34:21','www','yes');
 /*!40000 ALTER TABLE `xk_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-23 17:55:45
+-- Dump completed on 2014-11-26  0:57:23
