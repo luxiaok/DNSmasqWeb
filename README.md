@@ -107,3 +107,7 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 * DNS记录管理
 
 ![DnsMasqWeb Record](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_record.png)
+
+* DHCP管理
+
+![DnsMasqWeb DHCP](https://github.com/luxiaok/DNSmasqWeb/raw/master/xk_screenshot/xk_dhcp.png)
