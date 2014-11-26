@@ -12,17 +12,17 @@
 								<li class="active"><a href="/">控制中心</a></li>
 								<li><a href="/users">用户管理</a></li>
 								<li class="dropdown">
-									<a href="settings" class="dropdown-toggle" data-toggle="dropdown">DNS管理 <b class="caret"></b></a>
+									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">DNS管理 <b class="caret"></b></a>
 									<ul class="dropdown-menu">
 										<li><a href="/dns/domain">域名管理</a></li>
 										<li><a href="/dns/record">记录管理</a></li>
 									</ul>
 								</li>
                                 <li class="dropdown">
-									<a href="settings" class="dropdown-toggle" data-toggle="dropdown">DHCP管理 <b class="caret"></b></a>
+									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">DHCP管理 <b class="caret"></b></a>
 									<ul class="dropdown-menu">
-										<li><a href="/dhcp/pool">地址池</a></li>
-										<li><a href="/dhcp/host">保留地址</a></li>
+										<li><a href="/dhcp/pool">DHCP地址池</a></li>
+										<li><a href="/dhcp/host">DHCP绑定规则</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -34,16 +34,16 @@
 									<a href="#">欢迎</a>
 								</li>
 								<li class="dropdown">
-									<a href="help" class="dropdown-toggle" data-toggle="dropdown">{{user_info()['name']}}<b class="caret"></b></a>
+									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{user_info()['name']}}<b class="caret"></b></a>
 									<ul class="dropdown-menu">
-										<li><a href="profile"><i class="icon-user"></i> 个人资料</a></li>
-										<li><a href="messages"><i class="icon-envelope"></i> 消息中心</a></li>
-										<li><a href="settings"><i class="icon-cog"></i> 设置</a></li>
-										<li><a href="logout"><i class="icon-off"></i> 退出</a></li>
+										<li><a href="/profile"><i class="icon-user"></i> 个人资料</a></li>
+										<li><a href="/messages"><i class="icon-envelope"></i> 消息中心</a></li>
+										<li><a href="/settings"><i class="icon-cog"></i> 设置</a></li>
+										<li><a href="/logout"><i class="icon-off"></i> 退出</a></li>
 										<li class="divider"></li>
 										<li class="nav-header">Help</li>
-										<li><a href="help"><i class="icon-question-sign"></i> Help</a></li>
-										<li><a href="help"><i class="icon-list-alt"></i> FAQ</a></li>
+										<li><a href="/help"><i class="icon-question-sign"></i> Help</a></li>
+										<li><a href="/help"><i class="icon-list-alt"></i> FAQ</a></li>
 									</ul>
 								</li>
 							</ul>
