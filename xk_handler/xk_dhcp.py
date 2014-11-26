@@ -48,23 +48,24 @@ class DhcpPoolHandler(BaseHandler):
 class DhcpHostHandler(BaseHandler):
     @Auth
     def get(self):
-        pool_id = self.get_argument("id",0)
-        pool = self.db.get("select * from xk_dhcp_pool where id = %s",pool_id)
-        pools = self.db.query("select * from xk_dhcp_pool")
-        sql = "select h.id,h.pool as pool_id,h.hostname,h.mac,h.ip,h.comment,h.status,h.action,p.name as pool_name,p.range_start,p.range_end from xk_dhcp_host as h left join xk_dhcp_pool as p on h.pool=p.id"
-        if pool_id != 0 :
-            sql += " where pool = %s" % pool_id
-        dhcp_hosts = self.db.query(sql)
-        self.render2("xk_dhcp_host.html",dhcp_hosts=dhcp_hosts,dhcp_pool="active",pool=pool,pools=pools)
+        dhcp_hosts = self.db.query("select * from xk_dhcp_host")
+        self.render2("xk_dhcp_host.html",dhcp_hosts=dhcp_hosts,dhcp_pool="active")
 
     @Auth
     def post(self):
-        pool = self.get_argument("pool")
         hostname = self.get_argument("hostname")
         mac = self.get_argument("mac")
         ip = self.get_argument("ip")
         action = self.get_argument("action")
         comment = self.get_argument("comment")
-        self.db.execute(" insert into xk_dhcp_host (pool,hostname,mac,ip,action,comment) values (%s,%s,%s,%s,%s,%s) ",pool,hostname,mac,ip,action,comment)
+        check_mac = self.db.query("select id,mac from xk_dhcp_host where mac = %s",mac.lower())
+        check_ip = self.db.query("select id,ip from xk_dhcp_host where ip = %s",ip)
+        if check_mac:
+            self.write("2")  # MAC地址冲突
+            return
+        if check_ip:
+            self.write("3")  # IP地址冲突
+            return
+        self.db.execute(" insert into xk_dhcp_host (hostname,mac,ip,action,comment) values (%s,%s,%s,%s,%s) ",hostname,mac.lower(),ip,action,comment)
         self.write("1")
 

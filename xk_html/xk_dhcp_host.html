@@ -21,23 +21,12 @@
 						<a href="/dhcp/host">DHCP保留地址配置</a>
 					</h4>
                     <div class="pull-right">
-                        <input type="button" class="btn btn-warning" value="同步配置" onclick="">
                         <input type="button" class="btn btn-primary" value="添加规则" onclick="show_add();">
+                        <input type="button" class="btn btn-warning" value="刷新配置" onclick="">
                     </div><br /><br />
 
                     <form class="form-horizontal display_no" id="add_line" method="post">
 						<fieldset>
-							<legend>添加DHCP预留地址</legend>
-							<div class="control-group">
-								<label class="control-label" for="pool">地址池</label>
-								<div class="controls">
-									<select name="pool" id="pool" onchange="get_dhcpPool();">
-                                        {% for i in pools %}
-                                        <option value="{{i['id']}}" pool="{{i['range_start']}} - {{i['range_end']}}" id="pool_{{i['id']}}">{{i['name']}}</option>
-                                        {% endfor %}
-									</select>　　<span id="pool_addr"></span>
-								</div>
-							</div>
                             <div class="control-group">
 								<label class="control-label" for="hostname">主机名</label>
 								<div class="controls">
@@ -77,11 +66,10 @@
 						</fieldset>
 					</form>
 
-					<table class="table table-bordered table-striped table-hover table-condensed">
+					<table id="DataList" class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="checkbox_all"> #</th>
-                                <th>地址池</th>
                                 <th>主机名</th>
 								<th>MAC地址</th>
 								<th>IP地址</th>
@@ -101,36 +89,38 @@
                             {% set st_msg = "开启" %}
                             {% set fun_value = "yes" %}
                             {% endif %}
+                            {% if d['action'] == 'allow' %}
+                                {% set action = '已允许' %}
+                                {% set action_value = 'ignore' %}
+                                {% set action_msg = "禁止" %}
+                            {% else %}
+                                {% set action = '已禁止' %}
+                                {% set action_value = 'allow' %}
+                                {% set action_msg = "允许" %}
+                            {% endif %}
 								<td><input type="checkbox"/> {{ loop.index }}</td>
-                                <td title="{{d['range_start']}} - {{d['range_end']}}">{{ d['pool_name'] }}</td>
                                 <td>{{ d['hostname'] }}</td>
                                 <td>{{ d['mac'] }}</td>
                                 <td>{{ d['ip'] }}</td>
-                                <td>{{ d['action'] }}</td>
+                                <td><a href="/public/api?module=dhcp_host&fun=ch_action&id={{d['id']}}&value={{action_value}}" onclick="return confirm('确认{{action_msg}}该记录？');" title="点击{{action_msg}}该记录">{{ action }}</a></td>
                                 <td>{{ d['comment'] or '' }}</td>
                                 <td>
                                     <a href="javascript:void(0);">编辑</a> |
-                                    <a href="/public/api?module=dhcp_host&fun=ch_status&id={{d['id']}}&value={{fun_value}}&did={{pool['id']}}" onclick="return confirm('确认{{st_msg}}记录？');">{{st_msg}}</a> |
-                                    <a href="/public/api?module=dhcp_host&fun=del&id={{d['id']}}&did={{pool['id']}}" onclick="return confirm('确认删除该记录？');">删除</a>
+                                    <a href="/public/api?module=dhcp_host&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}记录？');">{{st_msg}}</a> |
+                                    <a href="/public/api?module=dhcp_host&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该记录？');">删除</a>
                                 </td>
 							</tr>
                             {% endfor %}
 						</tbody>
 					</table>
-					<ul class="pager">
-						<li class="next">
-							<a href="more">More &rarr;</a>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>
 		<script src="/xk_static/js/jquery-1.8.3.min.js"></script>
-		<script src="/xk_static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/xk_static/bootstrap/js/bootstrap.min.js"></script>
 		<script src="/xk_static/js/xk_dnsmasqweb.js"></script>
         <script type="text/javascript">
             function add_dhcp_host() {
-                pool = $("#pool").val();
                 hostname = $("#hostname").val();
                 mac = $("#mac").val();
                 ip = $("#ip").val();
@@ -149,15 +139,19 @@
                 $.ajax({
                     type: "POST",
                     url: "/dhcp/host",
-                    data: { 'pool':pool, 'hostname':hostname, 'mac':mac, 'ip':ip, 'action':action, 'comment':comment },
+                    data: { 'hostname':hostname, 'mac':mac, 'ip':ip, 'action':action, 'comment':comment },
                     dataType: "text",
                     success: function(msg){
                         if (msg == "1") {
                             alert("添加成功！");
                             window.location.href="/dhcp/host";
                         } else if (msg == "2") {
-                            alert("规则已存在！");
-                            $("#name").focus();
+                            alert("MAC地址已存在！");
+                            $("#mac").focus();
+                            return false;
+                        } else if (msg == "3") {
+                            alert("IP地址已存在！");
+                            $("#ip").focus();
                             return false;
                         } else {
                             alert("提示：添加规则失败！");
@@ -172,18 +166,13 @@
             };
             function show_add(){
                 $("#add_line").removeClass("display_no");
-                $("#name").focus();
+                $("#DataList").addClass("display_no");
+                $("#hostname").focus();
             };
             function cancel_add(){
                 $("#add_line").addClass("display_no");
+                $("#DataList").removeClass("display_no");
             };
-            function get_dhcpPool(){
-                pool_id = $("#pool").val();
-                pool_o_id = "#pool_" + pool_id;
-                dhcp_pool = $(pool_o_id).attr("pool");
-                $("#pool_addr").html(dhcp_pool);
-            };
-            get_dhcpPool();
         </script>
         {% include "xk_footer.html" %}
 	</body>
