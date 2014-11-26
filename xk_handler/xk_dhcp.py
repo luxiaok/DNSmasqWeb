@@ -48,7 +48,7 @@ class DhcpPoolHandler(BaseHandler):
 class DhcpHostHandler(BaseHandler):
     @Auth
     def get(self):
-        dhcp_hosts = self.db.query("select * from xk_dhcp_host")
+        dhcp_hosts = self.db.query("select *,case when action = 'allow' then 'selected' else '' end as allow_selected, case when action = 'ignore' then  'selected' else '' end as ignore_selected from xk_dhcp_host")
         self.render2("xk_dhcp_host.html",dhcp_hosts=dhcp_hosts,dhcp_pool="active")
 
     @Auth
@@ -58,14 +58,25 @@ class DhcpHostHandler(BaseHandler):
         ip = self.get_argument("ip")
         action = self.get_argument("action")
         comment = self.get_argument("comment")
-        check_mac = self.db.query("select id,mac from xk_dhcp_host where mac = %s",mac.lower())
-        check_ip = self.db.query("select id,ip from xk_dhcp_host where ip = %s",ip)
+        fun = self.get_argument("fun","add")
+        id_ = self.get_argument("id",0) # For Edit
+        sql_mac = "select id,mac from xk_dhcp_host where mac = '%s'" % mac.lower()
+        sql_ip = "select id,ip from xk_dhcp_host where ip = '%s'" % ip
+        if fun == "edit":
+            sql = " and id != %s" % id_
+            sql_mac += sql
+            sql_ip += sql
+        check_mac = self.db.query(sql_mac)
+        check_ip = self.db.query(sql_ip)
         if check_mac:
             self.write("2")  # MAC地址冲突
             return
         if check_ip:
             self.write("3")  # IP地址冲突
             return
-        self.db.execute(" insert into xk_dhcp_host (hostname,mac,ip,action,comment) values (%s,%s,%s,%s,%s) ",hostname,mac.lower(),ip,action,comment)
+        if fun == "add":
+            self.db.execute(" insert into xk_dhcp_host (hostname,mac,ip,action,comment) values (%s,%s,%s,%s,%s) ",hostname,mac.lower(),ip,action,comment)
+        else: # For Edit
+            self.db.execute("update xk_dhcp_host set hostname = %s, mac = %s, ip = %s, action = %s, comment = %s where id = %s",hostname,mac,ip,action,comment,id_)
         self.write("1")
 

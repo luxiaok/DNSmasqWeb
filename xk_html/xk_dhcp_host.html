@@ -81,11 +81,11 @@
 						<tbody>
                             {% for d in dhcp_hosts %}
                             {% if d['status'] == 'yes' %}
-                            <tr>
+                            <tr id="line_{{d['id']}}">
                             {% set st_msg = "暂停" %}
                             {% set fun_value = "no" %}
                             {% else %}
-							<tr  class="error">
+							<tr id="line_{{d['id']}}" class="error">
                             {% set st_msg = "开启" %}
                             {% set fun_value = "yes" %}
                             {% endif %}
@@ -105,11 +105,29 @@
                                 <td><a href="/public/api?module=dhcp_host&fun=ch_action&id={{d['id']}}&value={{action_value}}" onclick="return confirm('确认{{action_msg}}该记录？');" title="点击{{action_msg}}该记录">{{ action }}</a></td>
                                 <td>{{ d['comment'] or '' }}</td>
                                 <td>
-                                    <a href="javascript:void(0);">编辑</a> |
+                                    <a href="javascript:void(0);" onclick="to_edit({{d['id']}})">编辑</a> |
                                     <a href="/public/api?module=dhcp_host&fun=ch_status&id={{d['id']}}&value={{fun_value}}" onclick="return confirm('确认{{st_msg}}记录？');">{{st_msg}}</a> |
                                     <a href="/public/api?module=dhcp_host&fun=del&id={{d['id']}}" onclick="return confirm('确认删除该记录？');">删除</a>
                                 </td>
 							</tr>
+                            {# 可编辑状态 #}
+                            <tr id="edit_line_{{d['id']}}" class="display_no">
+                                <td><input type="checkbox"/> {{ loop.index }}</td>
+                                <td><input type="text" class="input-medium" value="{{d['hostname']}}" name="hostname_{{d['id']}}" id="hostname_{{d['id']}}"></td>
+                                <td><input type="text" class="input-medium" value="{{d['mac']}}" name="mac_{{d['id']}}" id="mac_{{d['id']}}"></td>
+                                <td><input type="text" class="input-medium" value="{{d['ip']}}" name="ip_{{d['id']}}" id="ip_{{d['id']}}"></td>
+                                <td>
+                                    <select name="action_{{d['id']}}" id="action_{{d['id']}}" style="width: 70px">
+                                        <option value="allow" {{d['allow_selected']}}>允许</option>
+                                        <option value="ignore" {{d['ignore_selected']}}>禁止</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="input-medium" value="{{d['comment'] or ''}}" name="comment_{{d['id']}}" id="comment_{{d['id']}}"></td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="save_info({{d['id']}});">保存</a> |
+                                    <a href="javascript:void(0);" onclick="to_line({{d['id']}})">取消</a>
+                                </td>
+                            </tr>
                             {% endfor %}
 						</tbody>
 					</table>
@@ -172,6 +190,53 @@
             function cancel_add(){
                 $("#add_line").addClass("display_no");
                 $("#DataList").removeClass("display_no");
+            };
+            function to_edit(id){
+                show_id = "#line_" + id;
+                edit_id = "#edit_line_" + id;
+                $(show_id).addClass("display_no");
+                $(edit_id).removeClass("display_no");
+            };
+            function to_line(id){
+                show_id = "#line_" + id;
+                edit_id = "#edit_line_" + id;
+                $(show_id).removeClass("display_no");
+                $(edit_id).addClass("display_no");
+            };
+            /* 编辑保存记录 */
+            function save_info(id){
+                hostname = $("#hostname_"+id).val();
+                mac = $("#mac_"+id).val();
+                ip = $("#ip_"+id).val();
+                action = $("#action_"+id).val();
+                comment = $("#comment_"+id).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/dhcp/host",
+                    data: { "id":id, "hostname":hostname, "mac":mac, "ip":ip, "action":action, "comment":comment, "fun":"edit" },
+                    dataType: "text",
+                    success: function(msg){
+                        if (msg == "1") {
+                            alert("修改成功！");
+                            location.href="/dhcp/host";
+                        } else if (msg == "2") {
+                            alert("MAC地址已存在！");
+                            $("#mac_"+id).focus();
+                            return false;
+                        } else if (msg == "3") {
+                            alert("IP地址已存在！");
+                            $("#ip_"+ip).focus();
+                            return false;
+                        } else {
+                            alert("提示：修改失败！");
+                            return false;
+                        }
+                        },
+                    error:function(){
+                        alert("提示：服务器内部错误！");
+                        return false;
+                        },
+                    });
             };
         </script>
         {% include "xk_footer.html" %}
