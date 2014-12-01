@@ -5,6 +5,51 @@ from xk_application.xk_main import *
 import os
 
 class PublicAPIHandler(BaseHandler):
+    def reload_dhcp(self,file,force=False):
+        dhcp_conf = self.db.query("select * from xk_options where type = 'dhcp'")
+        d = {}
+        for i in dhcp_conf:
+            d[i['name']] = i['value']
+        if force is False:
+            check_md5 = self.get_md5(file)
+            if check_md5 != d['xk_dhcp_conf_md5']:
+                return 1 # MD5校验失败
+        if not d['xk_dhcp_pool_domain']:
+            d['xk_dhcp_pool_domain'] = 'luxiaok.com'
+        if not d['xk_dhcp_pool_dns2']:
+            d['xk_dhcp_pool_dns2'] = "8.8.8.8"
+        conf = '''# Gen By Luxiaok
+# Address Pool
+dhcp-range=%s,%s,%s,%s
+# Gateway,3
+dhcp-option=option:router,%s
+# DNS Server
+dhcp-option=6,%s,%s
+# NTP Server,4 or 42
+#dhcp-option=42,202.120.2.101
+# DNS Domain
+dhcp-option=15,%s\n''' % (d['xk_dhcp_pool_start'],d['xk_dhcp_pool_stop'],d['xk_dhcp_pool_netmask'],d['xk_dhcp_pool_lease'],d['xk_dhcp_pool_gw'],d['xk_dhcp_pool_dns1'],d['xk_dhcp_pool_dns2'],d['xk_dhcp_pool_domain'])
+        dhcp_hosts = self.db.query("select * from xk_dhcp_host where status = 'yes'")
+        if dhcp_hosts:
+            for i in dhcp_hosts:
+                if i['action'] == 'allow':
+                    conf += "#%s\ndhcp-host=%s,%s\n" % (i['hostname'],i['mac'],i['ip'])
+                else:
+                    conf += "#%s\ndhcp-host=%s,ignore\n" % (i['hostname'],i['mac'])
+        try:
+            f = open(file,'w')
+            f.write(conf)
+            self.db.execute("update xk_options set value = %s where name = 'xk_dhcp_conf_md5' and type = 'dhcp'",self.get_md5(file))
+        except:
+            return 4 # 写入配置失败
+        finally:
+            f.close()
+        sv_rt = os.system("/etc/init.d/dnsmasq restart")
+        if sv_rt == 0:
+            return 2 # 写入文件成功，重新加载配置成功
+        else:
+            return 3 # 重启服务失败
+
     @Auth
     def get(self):
         module = self.get_argument("module")
@@ -87,3 +132,14 @@ class PublicAPIHandler(BaseHandler):
             elif fun == "ch_action":
                 self.db.execute("update xk_dhcp_host set action = %s where id = %s",value,id)
                 self.redirect("/dhcp/host")
+        elif module == "dhcp":
+            if fun == "reload":
+                # Test URL: http://www.yourdomain.com:9886/public/api?module=dhcp&fun=reload&value=force
+                if value == "force":
+                    force = True
+                else:
+                    force = False
+                rt = self.reload_dhcp("/etc/dnsmasq.d/dhcp.conf",force)
+                self.write(str(rt))
+                return
+
