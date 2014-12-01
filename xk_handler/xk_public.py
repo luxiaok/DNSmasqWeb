@@ -39,11 +39,13 @@ dhcp-option=15,%s\n''' % (d['xk_dhcp_pool_start'],d['xk_dhcp_pool_stop'],d['xk_d
         try:
             f = open(file,'w')
             f.write(conf)
-            self.db.execute("update xk_options set value = %s where name = 'xk_dhcp_conf_md5' and type = 'dhcp'",self.get_md5(file))
         except:
             return 4 # 写入配置失败
         finally:
             f.close()
+        new_md5 = self.get_md5(file)
+        #print new_md5
+        self.db.execute("update xk_options set value = %s where name = 'xk_dhcp_conf_md5' and type = 'dhcp'",new_md5)
         sv_rt = os.system("/etc/init.d/dnsmasq restart")
         if sv_rt == 0:
             return 2 # 写入文件成功，重新加载配置成功
