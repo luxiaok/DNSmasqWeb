@@ -153,6 +153,16 @@
                     $("#ragne_end").focus();
                     return false;
                 };
+                if ( router == '') {
+                    alert("请输入网关地址！");
+                    $("#router").focus();
+                    return false;
+                };
+                if ( dns1 == '') {
+                    alert("请输入DNS地址！");
+                    $("#dns1").focus();
+                    return false;
+                };
                 $.ajax({
                     type: "POST",
                     url: "/dhcp/pool",
