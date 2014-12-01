@@ -33,9 +33,9 @@ dhcp-option=15,%s\n''' % (d['xk_dhcp_pool_start'],d['xk_dhcp_pool_stop'],d['xk_d
         if dhcp_hosts:
             for i in dhcp_hosts:
                 if i['action'] == 'allow':
-                    conf += "#%s\ndhcp-host=%s,%s\n" % (i['hostname'],i['mac'],i['ip'])
+                    conf += "# %s\ndhcp-host=%s,%s\n" % (i['hostname'],i['mac'],i['ip'])
                 else:
-                    conf += "#%s\ndhcp-host=%s,ignore\n" % (i['hostname'],i['mac'])
+                    conf += "# %s\ndhcp-host=%s,ignore\n" % (i['hostname'],i['mac'])
         try:
             f = open(file,'w')
             f.write(conf)
