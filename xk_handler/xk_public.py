@@ -10,6 +10,15 @@ class PublicAPIHandler(BaseHandler):
         d = {}
         for i in dhcp_conf:
             d[i['name']] = i['value']
+        if d['xk_dhcp_status'] != 'yes':
+            f = open(file,'w')
+            f.write("# DHCP is stopped.")
+            f.close()
+            new_md5 = self.get_md5(file)
+            self.db.execute("update xk_options set value = %s where name = 'xk_dhcp_conf_md5' and type = 'dhcp'",new_md5)
+            sv_rt = os.system("/etc/init.d/dnsmasq restart")
+            #return 5 # 停止DHCP
+            return 2 # 返回成功状态码
         if force is False:
             check_md5 = self.get_md5(file)
             if check_md5 != d['xk_dhcp_conf_md5']:
