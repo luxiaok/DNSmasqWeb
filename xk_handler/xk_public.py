@@ -159,5 +159,5 @@ dhcp-option=15,%s\n''' % (d['xk_dhcp_pool_start'],d['xk_dhcp_pool_stop'],d['xk_d
                 self.redirect("/users")
             elif fun == "del":
                 self.db.execute("delete from xk_users where id = %s",id)
-                self.redirect("/userst")
+                self.redirect("/users")
 
