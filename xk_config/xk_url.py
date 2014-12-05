@@ -20,6 +20,7 @@ HandlersURL = [
     (r"/dhcp/host", xk_dhcp.DhcpHostHandler),
     (r"/public/api", xk_public.PublicAPIHandler),
     (r"/users", xk_users.UsersHandler),
+    (r"/users/logs", xk_users.LoginLogsHandler),
     (r"/test", xk_test.TestHandler),
     #(r"/(favicon\.ico)", tornado.web.StaticFileHandler, dict(path=settings['static_path']+"images/icon")),
 ]

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="DnsMasqWeb - Desgin By Xiaok">
+		<meta name="author" content="Xiaok">
+		<title>用户登录日志管理 - DnsMasqWeb - Desgin By Xiaok</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/xk_static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/xk_static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="/xk_static/css/xk_dnsmasqweb.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			{% include "xk_top_nav.html" %}
+			<div class="row">
+				{% include "xk_nav.html" %}
+				<div class="span10">
+					<h4>
+						用户登录日志
+					</h4>
+                    <div class="pull-right">
+                        <input type="button" class="btn btn-warning" value="清除日志" onclick="clear_logs();">
+                    </div><br /><br />
+					<table class="table table-bordered table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="checkbox_all"> #</th>
+								<th>UID</th>
+                                <th>用户名</th>
+                                <th>姓名</th>
+                                <th>登录时间</th>
+                                <th>登录主机</th>
+                                <th>登录地区</th>
+								<th>用户代理</th>
+							</tr>
+						</thead>
+						<tbody>
+                            {% for log in logs %}
+                            <tr id="line_{{log['id']}}">
+								<td><input type="checkbox"/> {{ loop.index }}</td>
+                                <td>{{ log['uid'] }}</td>
+                                <td>{{ log['username'] }}</td>
+                                <td></td>
+                                <td>{{ log['login_time'] }}</td>
+                                <td>{{ log['login_host'] }}</td>
+                                <td>{{ log['login_localtion'] or '' }}</td>
+                                <td title="{{log['user_agent']}}">{{ log['user_agent'] | truncate(40)}}</td>
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+					<ul class="pager">
+						<li class="next">
+							<a href="javascript:void(0)">More &rarr;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="/xk_static/js/jquery-1.8.3.min.js"></script>
+		<script src="/xk_static/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/xk_static/js/xk_dnsmasqweb.js"></script>
+        <script type="text/javascript">
+            function clear_logs() {
+                if ( ! confirm("确认要清除所有登录日志吗？") ) {
+                    return false;
+                };
+                $.ajax({
+                    type: "GET",
+                    url: "/public/api",
+                    data: { "id":88, "module":"login_logs", "fun":"clear" },
+                    dataType: "text",
+                    success: function(msg){
+                        if (msg == "1") {
+                            alert("清除日志成功！");
+                            location.href="/users/logs";
+                        } else {
+                            alert("提示：清除日志失败！");
+                            return false;
+                        }
+                        },
+                    error:function(){
+                        alert("提示：服务器内部错误！");
+                        return false;
+                        },
+                    });
+            };
+        </script>
+        {% include "xk_footer.html" %}
+	</body>
+</html>
