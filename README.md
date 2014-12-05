@@ -1,13 +1,14 @@
 DNSmasqWeb
 ==========
 
-基于DNSmasq的开源轻量级DNS解析系统
+基于DNSmasq的开源轻量级DNS解析、DHCP地址分配的开源系统
 
 Desgin By [Xiaok](http://github.luxiaok.com)
 
 ## 一、应用说明 ##
-* 本DNS系统可以用于机房内网、公司内网、家庭内网等类似内部网络环境
-* DNS服务端基于DNSmasq，Web端基于Python语言和Tornado框架
+* 本系统可同时提供DNS解析功能和DHCP地址分配功能
+* 本系统可以用于机房内网、公司内网、家庭内网等类似内部网络环境
+* 系统基于DNSmasq，Web端基于Python语言和Tornado框架
 
 ## 二、运行环境 ##
 * OS：RHEL 6.5 x64
