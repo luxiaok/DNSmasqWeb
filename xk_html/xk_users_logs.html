@@ -26,7 +26,7 @@
 					<table class="table table-bordered table-striped table-hover table-condensed">
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="checkbox_all"> #</th>
+								<th>#</th>
 								<th>UID</th>
                                 <th>用户名</th>
                                 <th>姓名</th>
@@ -39,7 +39,7 @@
 						<tbody>
                             {% for log in logs %}
                             <tr id="line_{{log['id']}}">
-								<td><input type="checkbox"/> {{ loop.index }}</td>
+								<td>{{ loop.index }}</td>
                                 <td>{{ log['uid'] }}</td>
                                 <td>{{ log['username'] }}</td>
                                 <td></td>
