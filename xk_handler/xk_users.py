@@ -9,11 +9,11 @@ class UsersHandler(BaseHandler):
         self.render2("xk_users.html",users=users,users_admin="active")
 
     def post(self):
-        username = self.get_argument("username")
+        username = self.get_argument("username",None)
         name = self.get_argument("name")
         email = self.get_argument("email")
         mobile = self.get_argument("mobile")
-        password = self.get_argument("password")
+        password = self.get_argument("password",None)
         comment = self.get_argument("comment")
         fun = self.get_argument("fun")
         if fun == "add":
@@ -24,4 +24,8 @@ class UsersHandler(BaseHandler):
             self.db.execute("insert into xk_users (username,name,email,mobile,password,comment,cdate) values (%s,%s,%s,%s,md5(%s),%s,CURRENT_TIMESTAMP)",username,name,email,mobile,password,comment)
             self.write("1")
             return
+        elif fun == "edit":
+            id = self.get_argument("id")
+            self.db.execute("update xk_users set name=%s,email=%s,mobile=%s,comment=%s where id=%s",name,email,mobile,comment,id)
+            self.write("1")
 

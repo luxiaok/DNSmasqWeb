@@ -191,13 +191,13 @@
                 comment = $("#comment_"+id).val();
                 $.ajax({
                     type: "POST",
-                    url: "/dns/domain",
-                    data: { "id":id, "domain":domain, "file":file, "comment":comment, "fun":"edit" },
+                    url: "/users",
+                    data: { "id":id, "name":name, "email":email, "mobile":mobile, "comment":comment, "fun":"edit" },
                     dataType: "text",
                     success: function(msg){
                         if (msg == "1") {
                             alert("修改成功！");
-                            location.href="/dns/domain";
+                            location.href="/users";
                         } else {
                             alert("提示：修改失败！");
                             return false;
