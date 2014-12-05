@@ -9,16 +9,16 @@
                         <a class="brand" href="#">DnsMasqWeb</a>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li class="active"><a href="/">控制中心</a></li>
-								<li><a href="/users">用户管理</a></li>
-								<li class="dropdown">
+								<li class="{{dashboard}}"><a href="/">控制中心</a></li>
+								<li class="{{users_admin}}"><a href="/users">用户管理</a></li>
+								<li class="dropdown {{record}}">
 									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">DNS管理 <b class="caret"></b></a>
 									<ul class="dropdown-menu">
 										<li><a href="/dns/domain">域名管理</a></li>
 										<li><a href="/dns/record">记录管理</a></li>
 									</ul>
 								</li>
-                                <li class="dropdown">
+                                <li class="dropdown {{dhcp_pool}}">
 									<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">DHCP管理 <b class="caret"></b></a>
 									<ul class="dropdown-menu">
 										<li><a href="/dhcp/pool">DHCP地址池</a></li>
