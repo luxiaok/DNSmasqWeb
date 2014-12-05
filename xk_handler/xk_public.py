@@ -153,4 +153,11 @@ dhcp-option=15,%s\n''' % (d['xk_dhcp_pool_start'],d['xk_dhcp_pool_stop'],d['xk_d
                 rt = self.reload_dhcp("/etc/dnsmasq.d/dhcp.conf",force)
                 self.write(str(rt))
                 return
+        elif module == "users":
+            if fun == "ch_status":
+                self.db.execute("update xk_users set status = %s where id = %s",value,id)
+                self.redirect("/users")
+            elif fun == "del":
+                self.db.execute("delete from xk_users where id = %s",id)
+                self.redirect("/userst")
 
