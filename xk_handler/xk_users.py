@@ -29,3 +29,7 @@ class UsersHandler(BaseHandler):
             self.db.execute("update xk_users set name=%s,email=%s,mobile=%s,comment=%s where id=%s",name,email,mobile,comment,id)
             self.write("1")
 
+class LoginLogsHandler(BaseHandler):
+    def get(self):
+        logs = self.db.query("select * from xk_login_logs")
+        self.render2("xk_users_logs.html",logs=logs,users_logs="active")

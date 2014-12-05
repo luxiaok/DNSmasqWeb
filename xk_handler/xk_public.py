@@ -160,4 +160,13 @@ dhcp-option=15,%s\n''' % (d['xk_dhcp_pool_start'],d['xk_dhcp_pool_stop'],d['xk_d
             elif fun == "del":
                 self.db.execute("delete from xk_users where id = %s",id)
                 self.redirect("/users")
+        elif module == "login_logs":
+            if fun == "clear":
+                try:
+                    self.db.execute("truncate xk_login_logs")
+                    self.write("1")
+                    return
+                except:
+                    self.write("2")
+
 
