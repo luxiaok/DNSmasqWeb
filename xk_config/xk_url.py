@@ -2,13 +2,7 @@
 #-*- coding:utf8 -*-
 #Design By Xiaok
 
-from xk_handler import xk_login
-from xk_handler import xk_index
-from xk_handler import xk_test
-from xk_handler import xk_public
-from xk_handler import xk_dhcp
-from xk_handler import xk_dns
-from xk_handler import xk_users
+from xk_handler import *
 
 HandlersURL = [
     (r"/(|login)/?", xk_login.LoginHandler),
