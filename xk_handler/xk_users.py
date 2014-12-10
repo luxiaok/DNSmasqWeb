@@ -10,11 +10,12 @@ class UsersHandler(BaseHandler):
 
     def post(self):
         username = self.get_argument("username",None)
-        name = self.get_argument("name")
-        email = self.get_argument("email")
-        mobile = self.get_argument("mobile")
+        name = self.get_argument("name",None)
+        email = self.get_argument("email",None)
+        mobile = self.get_argument("mobile",None)
         password = self.get_argument("password",None)
-        comment = self.get_argument("comment")
+        comment = self.get_argument("comment",None)
+        id = self.get_argument("id",None)
         fun = self.get_argument("fun")
         if fun == "add":
             check_user = self.db.get("select id,username,name from xk_users where username = %s",username)
@@ -25,8 +26,10 @@ class UsersHandler(BaseHandler):
             self.write("1")
             return
         elif fun == "edit":
-            id = self.get_argument("id")
             self.db.execute("update xk_users set name=%s,email=%s,mobile=%s,comment=%s where id=%s",name,email,mobile,comment,id)
+            self.write("1")
+        elif fun == "pass":
+            self.db.execute("update xk_users set password=md5(%s) where id=%s",password,id)
             self.write("1")
 
 class LoginLogsHandler(BaseHandler):
