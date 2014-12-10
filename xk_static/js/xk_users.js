@@ -141,10 +141,14 @@ function save_pass() {
     pass2 = $("#newpass2").val();
     if (pass1 == '' || pass2 == '') {
         alert("密码不能为空！");
+        $("#newpass").focus();
         return false;
     }
     if (pass1 != pass2) {
         alert("两次输入密码不一致！！");
+        $("#newpass").val("");
+        $("#newpass2").val("");
+        $("#newpass").focus();
         return false;
     };
     $.ajax({
