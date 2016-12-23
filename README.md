@@ -5,6 +5,21 @@ DNSmasqWeb
 
 Desgin By [Xiaok](http://github.luxiaok.com)
 
+
+## 【运维技术圈】微信公众号 ##
+
+![运维技术圈](https://github.com/luxiaok/SaltAdmin/raw/master/screenshot/ops_circle_qrcode.jpg)
+
+>也可以微信搜索 **运维技术圈**
+
+
+## 技术交流QQ群 ##
+
+**459457262**
+
+>加群时请注明来自 **Github**
+
+
 ## 一、应用说明 ##
 * 本系统可同时提供DNS解析功能和DHCP地址分配功能
 * 本系统可以用于机房内网、公司内网、家庭内网等类似内部网络环境
