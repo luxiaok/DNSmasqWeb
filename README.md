@@ -8,7 +8,7 @@ Desgin By [Xiaok](http://github.luxiaok.com)
 
 ## 【Python运维圈】微信公众号 ##
 
-![Python运维圈](https://github.com/luxiaok/SaltAdmin/raw/master/screenshot/ops_circle_qrcode.jpg)
+![Python运维圈](https://raw.githubusercontent.com/luxiaok/SaltAdmin/master/static/images/ops_circle_qrcode.jpg)
 
 >也可以微信搜索 **Python运维圈**
 
